@@ -1,0 +1,104 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins';
+    text-decoration: none;
+    scroll-behavior: smooth;
+    list-style: none;
+}
+header{
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5rem;
+    background-color: rgba(0, 0, 0, 0.769);
+    backdrop-filter: blur(8px);
+    color:white;
+    padding: 0.5rem 1.5rem;
+    /*border-radius: 1.7rem;*/
+    z-index: 1000;
+}
+.logo{
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 500;
+    text-wrap: nowrap;
+}
+.logo:hover{
+    transform: scale(1.05);
+}
+.nav-links{
+    display: flex;
+    gap: 2rem;
+}
+li a{
+    color: white;
+    font-weight: 300;
+    position: relative;
+}
+li a::before{
+    position:absolute;
+    content: '';
+    left: 0;
+    width: 0;
+    height: 5px;
+    top:25px;
+    border-radius: 1rem;
+    transition: 0.3s ease-in-out;
+    background: linear-gradient(to right, rgb(0,157,255), rgb(255,0,255));
+}
+li a:hover::before{
+    width: 100%;
+}
+.visit-btn{
+    padding: 0.8rem 1.5rem;
+    color: white;
+    border-radius: 1.7rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    text-wrap: nowrap;
+          background: linear-gradient(to right, rgb(0, 58, 109),rgb(0,157,255));
+    transition: 0.3s ease-in-out;
+}
+.visit-btn:hover{
+    transform: scale(1.05);
+     background: linear-gradient(to right, rgb(0, 102, 190),rgb(89, 191, 255));
+    transition: 0.3s ease-in-out;
+}
+#menu-icon{
+    display: none;
+    font-size: 1.5rem;
+}
+section{
+    min-height: 100vh;
+    display: flex;
+    padding: 8rem 12%;
+    width: 100%;
+    position: relative;
+}
+.about{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.about .about-content{
+    display: flex;
+     align-items: center;
+    justify-content: center;
+    gap: 10rem;
+}
+.about img{
+    width: 30vw;
+    border-radius: 50%;
+}
+.info-box{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
