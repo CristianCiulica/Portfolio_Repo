@@ -9,38 +9,43 @@
 }
 header{
     position: fixed;
-    top: 1rem;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(8px);
+    color: white;
+    padding: 0.5rem 2rem;
+    padding-top: 16px;
+    z-index: 1000;
+    font-size: 22px;
+    font-weight: bold;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 5rem;
-    background-color: rgba(0, 0, 0, 0.769);
-    backdrop-filter: blur(8px);
-    color:white;
-    padding: 0.5rem 1.5rem;
-    /*border-radius: 1.7rem;*/
-    z-index: 1000;
+    justify-content: space-between;
 }
+
 .logo{
     color: white;
     font-size: 1.3rem;
     font-weight: 500;
     text-wrap: nowrap;
 }
+
 .logo:hover{
     transform: scale(1.05);
 }
+
 .nav-links{
     display: flex;
-    gap: 2rem;
+    gap: 4rem;
 }
+
 li a{
     color: white;
     font-weight: 300;
     position: relative;
 }
+
 li a::before{
     position:absolute;
     content: '';
@@ -52,9 +57,15 @@ li a::before{
     transition: 0.3s ease-in-out;
     background: linear-gradient(to right, rgb(0,157,255), rgb(255,0,255));
 }
+
 li a:hover::before{
     width: 100%;
 }
+
+#menu-icon{
+    margin-left: 0.5rem;
+}
+
 .visit-btn{
     padding: 0.8rem 1.5rem;
     color: white;
@@ -63,18 +74,21 @@ li a:hover::before{
     cursor: pointer;
     border: none;
     text-wrap: nowrap;
-          background: linear-gradient(to right, rgb(0, 58, 109),rgb(0,157,255));
+   visibility: hidden;
+    background: linear-gradient(to right, rgb(0, 58, 109),rgb(0,157,255));
     transition: 0.3s ease-in-out;
 }
+
 .visit-btn:hover{
     transform: scale(1.05);
      background: linear-gradient(to right, rgb(0, 102, 190),rgb(89, 191, 255));
     transition: 0.3s ease-in-out;
 }
+
 #menu-icon{
-    display: none;
     font-size: 1.5rem;
 }
+
 section{
     min-height: 100vh;
     display: flex;
@@ -82,23 +96,178 @@ section{
     width: 100%;
     position: relative;
 }
+
 .about{
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 .about .about-content{
     display: flex;
      align-items: center;
     justify-content: center;
     gap: 10rem;
 }
+
 .about img{
-    width: 30vw;
+    width: 300px;
+    max-width: 80vw;
     border-radius: 50%;
 }
+
 .info-box{
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    text-align: center;
+    justify-content: center;
+}
+
+.info-box h3{
+    font-size: 1.8rem;
+    font-weight: 500;
+}
+
+.info-box h1{
+    font-size: 3.5rem;
+    font-weight: 600;
+}
+
+.info-box span{
+    background: linear-gradient(to right, rgba(255, 0, 0, 0.61), rgba(39, 1, 252, 0.62));
+    background-clip: text;
+    text-wrap: nowrap;
+    font-weight: bold;
+    padding: 0.2rem;
+    font-size: 2rem;
+    color: transparent;
+    border-radius: 0.5rem;
+}
+
+.btn-group{
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn{
+    border: 2px solid black;
+    padding: 0.5rem 1.5rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-wrap: nowrap;
+}
+
+.socials{
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.btn:hover{
+    transition: 0s ease-in-out;
+    background: black;
+    color: white;
+}
+
+.socials i{
+    font-size: 2.5rem;
+    transition: 0.2s ease-in-out;
+}
+
+.socials .github i{
+    color: #181717;
+}
+
+.socials .linkedin i{
+    color: #0A66C2;
+}
+
+.socials .instagram i{
+    background: radial-gradient(circle at 30% 110%,
+    #fdf497 0%,
+    #fdf497 5%,
+    #fd5949 45%,
+    #d6249f 60%,
+    #285AEB 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.socials i:hover{
+    transform: scale(1.1);
+}
+
+@media (max-width: 1024px){
+    .about .about-content{
+        gap: 4rem;
+    }
+
+    .info-box h1{
+        font-size: 3rem;
+    }
+
+    .info-box span{
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 768px){
+
+    header{
+        gap: 1rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .nav-links{
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: rgba(0,0,0,0.9);
+        width: 200px;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+        border-radius: 1rem;
+        display: none;
+    }
+
+    .nav-links.active{
+        display: flex;
+    }
+
+    #menu-icon{
+        display: block;
+        cursor: pointer;
+    }
+
+    .visit-btn{
+        display: none;
+    }
+
+    .about .about-content{
+        flex-direction: column;
+        gap: 3rem;
+        text-align: center;
+    }
+
+    .about img{
+        width: 250px;
+    }
+
+    .info-box h1{
+        font-size: 2.5rem;
+    }
+
+    .info-box span{
+        font-size: 1.3rem;
+    }
+
+    .btn-group{
+        flex-direction: column;
+        align-items: center;
+    }
 }
