@@ -184,7 +184,7 @@ section + section::before {
     font-size: 1.1rem;
     font-weight: 500;
     color: #212121;
-    background: #e8e8e8;
+    background: #ffffff;
     position: relative;
     overflow: hidden;
     z-index: 1;
@@ -275,6 +275,52 @@ section + section::before {
     font-size: 0.9rem;
 }
 
+.languages-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 0.3rem;
+}
+
+.language-skill {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
+.language-label {
+    width: 6.2rem;
+    font-weight: 500;
+    color: #212121;
+}
+
+.progress-track {
+    flex: 1;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: rgba(33, 33, 33, 0.16);
+    overflow: hidden;
+}
+
+.progress-fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--secondary-gradient);
+}
+
+.grid-card:hover .language-label {
+    color: #f2f2f2;
+}
+
+.grid-card:hover .progress-track {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.grid-card:hover .progress-fill {
+    background: var(--hover-gradient);
+}
+
 .grid-card:hover h3 { color: #ccc; }
 
 @media (max-width: 1024px) {
@@ -316,6 +362,7 @@ section + section::before {
 }
 
 @media (max-width: 480px) {
+    .language-label { width: 5.4rem; }
     .info-box h1 { font-size: 2.2rem; }
     .about img { width: 220px; height: 220px; }
     section { padding: 5rem 5%; }
