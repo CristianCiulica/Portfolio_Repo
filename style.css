@@ -15,7 +15,9 @@
     --bg-dark: rgba(0, 0, 0, 0.78);
     --section-divider: linear-gradient(to right, rgba(0, 157, 255, 0), rgba(0, 157, 255, 0.55), rgba(255, 0, 255, 0.55), rgba(255, 0, 255, 0));
 }
-
+#projects{
+    padding-top:5rem;
+}
 body {
     overflow-x: hidden;
 
@@ -126,7 +128,7 @@ section + section::before {
 }
 
 .experience {
-    padding-top: 2rem;
+    padding-top: 5rem;
 }
 
 .about .about-content {
