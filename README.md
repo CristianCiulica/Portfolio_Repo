@@ -1,6 +1,5 @@
 # Personal Web App Portfolio
-
-Hi! I'm **Cristian**, a Computer Science student at **UNITBV**. This is my personal portfolio website, built to showcase my projects and technical journey.
+I'm **Cristian**, a Computer Science student at **UNITBV**. This is my personal portfolio website, built to showcase my projects and technical journey.
 
 ## Tech Stack
 | Languages & Tools |
