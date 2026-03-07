@@ -16,7 +16,7 @@
     --section-divider: linear-gradient(to right, rgba(0, 157, 255, 0), rgba(0, 157, 255, 0.55), rgba(255, 0, 255, 0.55), rgba(255, 0, 255, 0));
 }
 #projects{
-    padding-top:5rem;
+    padding-top:6rem;
 }
 body {
     overflow-x: hidden;
@@ -100,7 +100,7 @@ header {
 
 section {
     min-height: 100vh;
-    padding: 8rem 8%;
+    padding: 6.5rem 8%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -123,12 +123,13 @@ section + section::before {
 
 .about {
     padding-bottom: 2rem;
+    background-image: linear-gradient(to top, rgb(255, 255, 255), rgb(195, 205, 255));
     padding-top: 0rem;
     padding-left: 0rem;
 }
 
 .experience {
-    padding-top: 5rem;
+    padding-top: 3.5rem;
 }
 
 .about .about-content {
@@ -241,24 +242,159 @@ section + section::before {
 
 }
 
+.courses {
+    padding-top: 5.2rem;
+}
+
+.courses-grid {
+    gap: 1.4rem;
+}
+
+.course-card {
+    gap: 0.9rem;
+    cursor: default;
+}
+
+.course-image-wrapper {
+    border-radius: 1rem;
+}
+
+.course-media {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.course-image-placeholder {
+    display: grid;
+    place-items: center;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: rgba(17, 17, 17, 0.72);
+    background: linear-gradient(120deg, rgba(0, 157, 255, 0.15), rgba(255, 0, 255, 0.15));
+}
+
+.course-expand-btn {
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(33, 33, 33, 0.2);
+    background: #fff;
+    color: #212121;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 200ms, color 200ms, border-color 200ms;
+}
+
+.course-expand-btn:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+.course-name {
+    font-weight: 600;
+    line-height: 1.35;
+    color: #111;
+}
+
+.course-year {
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.course-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1500;
+}
+
+.course-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 12, 0.6);
+}
+
+.course-modal-content {
+    position: relative;
+    z-index: 1;
+    width: min(92vw, 980px);
+    max-height: 90vh;
+    margin: 4vh auto;
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 18px 80px rgba(0, 0, 0, 0.45);
+    overflow: auto;
+}
+
+.course-modal-title {
+    margin: 0 2.4rem 0.9rem 0;
+    color: #111;
+    font-size: 1.1rem;
+}
+
+.course-modal-media {
+    width: 100%;
+    min-height: 280px;
+    max-height: calc(90vh - 6.5rem);
+    border-radius: 0.8rem;
+    object-fit: contain;
+}
+
+.course-modal-close {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    width: 2rem;
+    height: 2rem;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(17, 17, 17, 0.12);
+    color: #111;
+    cursor: pointer;
+}
+
+.grid-card:hover .course-name,
+.grid-card:hover .course-year {
+    color: #fff;
+}
+
+.grid-card:hover .course-image-placeholder {
+    color: rgba(255, 255, 255, 0.95);
+    background: linear-gradient(120deg, rgba(0, 157, 255, 0.32), rgba(255, 0, 255, 0.28));
+}
+
+.grid-card:hover .course-expand-btn {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.45);
+}
+
 .section-title {
     font-size: 3rem;
     margin-bottom: 4rem;
     text-align: center;
 }
 
+section + section .section-title {
+    margin-top: -1rem;
+}
+
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2rem;
     width: 100%;
-    max-width: 1100px;
+    max-width: 1180px;
 }
 
 .grid-card {
     border: 2px solid black;
     border-radius: 2.5rem;
-    padding: 2.5rem;
+    padding: 2.8rem;
     display: flex;
     cursor: crosshair;
     flex-direction: column;
@@ -325,6 +461,142 @@ section + section::before {
 
 .grid-card:hover h3 { color: #ccc; }
 
+.project-card {
+    gap: 1.1rem;
+    align-items: stretch;
+}
+
+.project-image {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: 1.1rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.project-placeholder {
+    display: grid;
+    place-items: center;
+    font-weight: 600;
+    color: rgba(17, 17, 17, 0.72);
+    background: linear-gradient(120deg, rgba(206, 219, 228, 0.12), rgba(255, 0, 255, 0.12));
+}
+
+.grid-card:hover .project-placeholder {
+    color: rgba(255, 255, 255, 0.9);
+    background: linear-gradient(120deg, rgba(239, 222, 222, 0.32), rgba(245, 204, 245, 0.32));
+}
+
+.project-title {
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: #111;
+    line-height: 1.35;
+}
+
+.buttons-group,
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.individual-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1.2rem;
+    min-height: 2.4rem;
+    border-radius: 2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #212121;
+    background: #ffffff;
+    border: 1px solid rgba(33, 33, 33, 0.16);
+    position: relative;
+    overflow: hidden;
+    transition: color 250ms, background-color 250ms, border-color 250ms;
+    cursor: pointer;
+}
+
+.individual-btn.icon-btn {
+    width: 2.4rem;
+    height: 2.4rem;
+    min-width: 2.4rem;
+    min-height: 2.4rem;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 1.1rem;
+}
+
+.grid-card:hover .project-title {
+    color: #fff;
+}
+
+.grid-card:hover .individual-btn {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.45);
+}
+
+.contact {
+    min-height: auto;
+    padding-top: 5.5rem;
+    padding-bottom: 6rem;
+    background-image: linear-gradient(to top, rgba(213, 195, 255, 0.36), rgb(255, 255, 255));
+}
+
+.contact-form {
+    width: min(760px, 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    background: rgba(255, 255, 255, 0.94);
+    border: 2px solid rgba(17, 17, 17, 0.12);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.form-field label {
+    font-weight: 600;
+    color: #222;
+}
+
+.form-field input,
+.form-field textarea {
+    width: 100%;
+    border: 1px solid rgba(17, 17, 17, 0.2);
+    border-radius: 0.85rem;
+    padding: 0.8rem 0.95rem;
+    font-size: 1rem;
+    background: #fff;
+    color: #111;
+    outline: none;
+    transition: border-color 200ms, box-shadow 200ms;
+}
+
+.form-field textarea {
+    resize: vertical;
+    min-height: 140px;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+    border-color: #2673ff;
+    box-shadow: 0 0 0 3px rgba(38, 115, 255, 0.16);
+}
+
+.contact-submit {
+    align-self: flex-start;
+}
+
 @media (max-width: 1024px) {
     .about .about-content { gap: 3rem; }
     .info-box h1 { font-size: 3rem; }
@@ -361,11 +633,15 @@ section + section::before {
     .socials { justify-content: center; }
 
     .grid { grid-template-columns: 1fr; }
+    .contact-form { padding: 1.5rem; }
 }
 
 @media (max-width: 480px) {
     .language-label { width: 5.4rem; }
     .info-box h1 { font-size: 2.2rem; }
+    .project-title { font-size: 0.98rem; }
     .about img { width: 220px; height: 220px; }
-    section { padding: 5rem 5%; }
+    .contact-form { padding: 1.1rem; border-radius: 1.1rem; }
+    .contact-submit { width: 100%; }
+    section { padding: 4rem 5%; }
 }
