@@ -15,6 +15,51 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const contactForm = document.querySelector('.contact-form');
+const mobileMenuIcon = document.getElementById("menu-icon");
+const navLinks = document.querySelector(".nav-links");
+const mobileMenuBreakpoint = window.matchMedia("(max-width: 600px)");
+
+function closeMobileMenu() {
+    if (!navLinks) {
+        return;
+    }
+    navLinks.classList.remove("active");
+}
+
+if (mobileMenuIcon && navLinks) {
+    const logoLink = mobileMenuIcon.closest("a");
+
+    mobileMenuIcon.addEventListener("click", (event) => {
+        if (!mobileMenuBreakpoint.matches) {
+            return;
+        }
+        event.preventDefault();
+        navLinks.classList.toggle("active");
+    });
+
+    if (logoLink) {
+        logoLink.addEventListener("click", (event) => {
+            if (!mobileMenuBreakpoint.matches) {
+                return;
+            }
+            event.preventDefault();
+        });
+    }
+
+    navLinks.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+            if (mobileMenuBreakpoint.matches) {
+                closeMobileMenu();
+            }
+        });
+    });
+
+    mobileMenuBreakpoint.addEventListener("change", (event) => {
+        if (!event.matches) {
+            closeMobileMenu();
+        }
+    });
+}
 
 if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
@@ -24,6 +69,12 @@ if (contactForm) {
         const email = document.getElementById('email').value;
         const message = document.getElementById('message').value;
         const submitBtn = document.querySelector('.contact-submit');
+
+        if (!message.trim()) {
+            alert('Message cannot be empty.');
+            document.getElementById('message').focus();
+            return;
+        }
 
         submitBtn.textContent = 'Se trimite...';
         submitBtn.disabled = true;
@@ -36,12 +87,12 @@ if (contactForm) {
                 timestamp: serverTimestamp()
             });
 
-            alert('Mesajul tău a fost trimis cu succes!');
+            alert('Message Sent!');
             contactForm.reset();
 
         } catch (error) {
-            console.error("Eroare la trimiterea mesajului: ", error);
-            alert('A apărut o eroare. Te rog să încerci din nou.');
+            console.error("Error.", error);
+            alert('Error sending message. Please try again later.');
         } finally {
             submitBtn.textContent = 'Send Message';
             submitBtn.disabled = false;
@@ -53,7 +104,12 @@ const courseModal = document.getElementById("course-modal");
 const courseModalTitle = document.getElementById("course-modal-title");
 const courseExpandButtons = document.querySelectorAll(".course-expand-btn");
 
+const projectModal = document.getElementById("project-modal");
+const projectModalTitle = document.getElementById("project-modal-title");
+const projectExpandButtons = document.querySelectorAll(".project-expand-btn");
+
 let lastTriggerButton = null;
+let lastProjectTriggerButton = null;
 
 function getCourseModalMedia() {
     return document.getElementById("course-modal-media");
@@ -105,10 +161,71 @@ function closeCourseModal() {
     }
 
     courseModal.hidden = true;
-    document.body.style.overflow = "";
+    if (!projectModal || projectModal.hidden) {
+        document.body.style.overflow = "";
+    }
 
     if (lastTriggerButton) {
         lastTriggerButton.focus();
+    }
+}
+
+function getProjectModalMedia() {
+    return document.getElementById("project-modal-media");
+}
+
+function createProjectMedia(imagePath, title) {
+    if (imagePath) {
+        const image = document.createElement("img");
+        image.src = imagePath;
+        image.alt = `${title} preview`;
+        image.className = "project-modal-media";
+        return image;
+    }
+
+    const placeholder = document.createElement("div");
+    placeholder.className = "project-modal-media project-image-placeholder";
+    placeholder.textContent = "Add project image";
+    return placeholder;
+}
+
+function openProjectModal(triggerButton) {
+    const projectModalMedia = getProjectModalMedia();
+    if (!projectModal || !projectModalTitle || !projectModalMedia) {
+        return;
+    }
+
+    const title = triggerButton.dataset.projectTitle || "Project preview";
+    const imagePath = triggerButton.dataset.projectImage || "";
+
+    lastProjectTriggerButton = triggerButton;
+    projectModalTitle.textContent = title;
+
+    const mediaNode = createProjectMedia(imagePath, title);
+    projectModalMedia.replaceWith(mediaNode);
+    mediaNode.id = "project-modal-media";
+
+    projectModal.hidden = false;
+    document.body.style.overflow = "hidden";
+
+    const closeButton = projectModal.querySelector(".project-modal-close");
+    if (closeButton) {
+        closeButton.focus();
+    }
+}
+
+function closeProjectModal() {
+    if (!projectModal) {
+        return;
+    }
+
+    projectModal.hidden = true;
+    if (!courseModal || courseModal.hidden) {
+        document.body.style.overflow = "";
+    }
+
+    if (lastProjectTriggerButton) {
+        lastProjectTriggerButton.focus();
     }
 }
 
@@ -129,8 +246,34 @@ if (courseModal) {
     });
 }
 
+projectExpandButtons.forEach((button) => {
+    button.addEventListener("click", () => openProjectModal(button));
+});
+
+if (projectModal) {
+    projectModal.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) {
+            return;
+        }
+        const closeControl = target.closest("[data-close-project-modal]");
+        if (closeControl && projectModal.contains(closeControl)) {
+            closeProjectModal();
+        }
+    });
+}
+
 document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && courseModal && !courseModal.hidden) {
+    if (event.key !== "Escape") {
+        return;
+    }
+
+    if (projectModal && !projectModal.hidden) {
+        closeProjectModal();
+        return;
+    }
+
+    if (courseModal && !courseModal.hidden) {
         closeCourseModal();
     }
 });

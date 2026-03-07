@@ -79,6 +79,7 @@ header {
 #menu-icon {
     font-size: 1.8rem;
     cursor: pointer;
+    display: none;
 }
 
 .visit-btn {
@@ -283,7 +284,8 @@ section + section::before {
     background: linear-gradient(120deg, rgba(0, 157, 255, 0.15), rgba(255, 0, 255, 0.15));
 }
 
-.course-expand-btn {
+.course-expand-btn,
+.project-expand-btn {
     width: fit-content;
     display: inline-flex;
     align-items: center;
@@ -298,34 +300,27 @@ section + section::before {
     transition: background-color 200ms, color 200ms, border-color 200ms;
 }
 
-.course-expand-btn:hover {
+.course-expand-btn:hover,
+.project-expand-btn:hover {
     background: rgba(0, 0, 0, 0.06);
 }
 
-.course-name {
-    font-weight: 600;
-    line-height: 1.35;
-    color: #111;
-}
-
-.course-year {
-    font-size: 0.95rem;
-    color: #666;
-}
-
-.course-modal {
+.course-modal,
+.project-modal {
     position: fixed;
     inset: 0;
     z-index: 1500;
 }
 
-.course-modal-backdrop {
+.course-modal-backdrop,
+.project-modal-backdrop {
     position: absolute;
     inset: 0;
     background: rgba(10, 10, 12, 0.6);
 }
 
-.course-modal-content {
+.course-modal-content,
+.project-modal-content {
     position: relative;
     z-index: 1;
     width: min(92vw, 980px);
@@ -338,13 +333,15 @@ section + section::before {
     overflow: auto;
 }
 
-.course-modal-title {
+.course-modal-title,
+.project-modal-title {
     margin: 0 2.4rem 0.9rem 0;
     color: #111;
     font-size: 1.1rem;
 }
 
-.course-modal-media {
+.course-modal-media,
+.project-modal-media {
     width: 100%;
     min-height: 280px;
     max-height: calc(90vh - 6.5rem);
@@ -352,7 +349,8 @@ section + section::before {
     object-fit: contain;
 }
 
-.course-modal-close {
+.course-modal-close,
+.project-modal-close {
     position: absolute;
     top: 0.6rem;
     right: 0.6rem;
@@ -375,7 +373,8 @@ section + section::before {
     background: linear-gradient(120deg, rgba(0, 157, 255, 0.32), rgba(255, 0, 255, 0.28));
 }
 
-.grid-card:hover .course-expand-btn {
+.grid-card:hover .course-expand-btn,
+.grid-card:hover .project-expand-btn {
     color: #fff;
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.45);
@@ -611,6 +610,22 @@ section + section .section-title {
 }
 
 @media (max-width: 768px) {
+    .visit-btn { display: none; }
+
+    .about .about-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .info-box span { font-size: 1.4rem; }
+    .btn-group { justify-content: center; }
+    .socials { justify-content: center; }
+
+    .grid { grid-template-columns: 1fr; }
+    .contact-form { padding: 1.5rem; }
+}
+
+@media (max-width: 600px) {
     #menu-icon { display: block; }
 
     .nav-links {
@@ -628,20 +643,6 @@ section + section .section-title {
     }
 
     .nav-links.active { display: flex; }
-
-    .visit-btn { display: none; }
-
-    .about .about-content {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .info-box span { font-size: 1.4rem; }
-    .btn-group { justify-content: center; }
-    .socials { justify-content: center; }
-
-    .grid { grid-template-columns: 1fr; }
-    .contact-form { padding: 1.5rem; }
 }
 
 @media (max-width: 480px) {
