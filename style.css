@@ -120,10 +120,17 @@ section + section::before {
     height: 2px;
     background: var(--section-divider);
 }
-
+#notepad {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: contain;
+    object-position: center;
+    align-self: stretch;
+}
 .about {
     padding-bottom: 2rem;
-    background-image: linear-gradient(to top, rgb(255, 255, 255), rgb(195, 205, 255));
+    background-image: linear-gradient(to top, rgb(255, 255, 255), rgba(211, 217, 255, 0.47));
     padding-top: 0rem;
     padding-left: 0rem;
 }
@@ -261,6 +268,7 @@ section + section::before {
 
 .course-media {
     width: 100%;
+    height: 100%;
     aspect-ratio: 16 / 10;
     border-radius: 1rem;
     border: 1px solid rgba(0, 0, 0, 0.1);
