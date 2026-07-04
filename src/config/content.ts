@@ -26,13 +26,50 @@ export interface Project {
   short: string
   description: string
   tech: string[]
-  image: string
+  /** Screenshot path; when absent a cover is generated from `cover`. */
+  image?: string
+  cover?: { motif: 'rings' | 'scan' | 'sheet'; from: string; to: string; tagline: string }
   github?: string
   live?: string
   accent: string
 }
 
+/** The headline work — displayed under “Main Projects” in the hall. */
 export const PROJECTS: Project[] = [
+  {
+    id: 'fittrack',
+    title: 'FitTrack',
+    short: 'Workout tracking, beautifully simple',
+    description:
+      'A web app for tracking workouts: plan sessions, log sets and reps in seconds, and watch progress build over time through clean charts, personal records and streaks. Built to make consistency feel rewarding.',
+    tech: ['React', 'TypeScript', 'Node.js', 'Charts'],
+    cover: { motif: 'rings', from: '#0f766e', to: '#34d399', tagline: 'Train. Log. Progress.' },
+    accent: '#4ade80',
+  },
+  {
+    id: 'skinalert',
+    title: 'SkinAlert',
+    short: 'Neural networks for skin health',
+    description:
+      'An application that uses convolutional neural networks to screen photos of the skin for possible conditions and flags what deserves a doctor’s attention. Careful dataset work, honest confidence scores, and a clear “this is not a diagnosis” philosophy.',
+    tech: ['Python', 'TensorFlow', 'CNN', 'Computer Vision'],
+    cover: { motif: 'scan', from: '#1d4ed8', to: '#60a5fa', tagline: 'Early signals, clearly shown.' },
+    accent: '#60a5fa',
+  },
+  {
+    id: 'bacpro',
+    title: 'BacPro',
+    short: 'The Bac, in your pocket',
+    description:
+      'A study companion for Romanian high-schoolers preparing for the Bacalaureat: past exam subjects on your phone, worked solutions, and practical tips for exam day. Less panic, more practice.',
+    tech: ['React Native', 'TypeScript', 'Firebase'],
+    cover: { motif: 'sheet', from: '#b45309', to: '#fbbf24', tagline: 'Subiecte. Rezolvări. Sfaturi.' },
+    accent: '#fbbf24',
+  },
+]
+
+/** Earlier work that still earns wall space. */
+export const MORE_PROJECTS: Project[] = [
   {
     id: 'crypto',
     title: 'Crypto Market Aggregator',
@@ -55,39 +92,6 @@ export const PROJECTS: Project[] = [
     image: asset('Images/projects/7wonders-duel.jpg'),
     github: 'https://github.com/pterodactylstfw/7WondersDuel',
     accent: '#7ec8d8',
-  },
-  {
-    id: 'tictactoe',
-    title: 'Tic-Tac-Toe Minimax',
-    short: 'An unbeatable classic',
-    description:
-      'Tic-Tac-Toe with a perfect-play AI built on the minimax algorithm with full game-tree exploration. Small game, real lesson: adversarial search, recursion and evaluation done properly.',
-    tech: ['Python', 'Minimax', 'Algorithms'],
-    image: asset('Images/projects/tictactoe-ai.jpg'),
-    github: 'https://github.com/CristianCiulica/X-and-0-AI',
-    accent: '#b8d87e',
-  },
-  {
-    id: 'snake',
-    title: 'Snake',
-    short: 'The arcade classic, rebuilt from scratch',
-    description:
-      'A from-scratch implementation of Snake — game loop, input handling, collision and rendering all hand-rolled. The kind of project where you learn what a frame actually is.',
-    tech: ['C++', 'Game Loop', 'Data Structures'],
-    image: asset('Images/projects/snake.png'),
-    github: 'https://github.com/CristianCiulica/Snake',
-    accent: '#8ed87e',
-  },
-  {
-    id: 'notepad',
-    title: 'Notepad Clone',
-    short: 'A desktop text editor in WPF',
-    description:
-      'A Windows desktop text editor modeled on Notepad, built with WPF and MVVM: file I/O, editing commands, find & replace and a native-feeling menu system.',
-    tech: ['C#', 'WPF', 'MVVM', '.NET'],
-    image: asset('Images/projects/NotepadPlus.png'),
-    github: 'https://github.com/CristianCiulica/NotepadClone',
-    accent: '#d8d07e',
   },
   {
     id: 'regex',

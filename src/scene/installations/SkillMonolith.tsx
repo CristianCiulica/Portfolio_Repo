@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
-import { Text } from '@react-three/drei'
+import { Label as Text } from './Label'
 import type { SkillGroup } from '../../config/content'
 import { FONTS } from '../../config/content'
 import { getMaterials, ACCENT } from '../materials'

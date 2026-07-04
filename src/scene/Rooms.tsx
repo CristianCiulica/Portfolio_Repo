@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
-import { Text, useTexture } from '@react-three/drei'
-import { PROFILE, PROJECTS, SKILLS, CERTIFICATES, TIMELINE, FONTS, SECRET } from '../config/content'
+import { useTexture } from '@react-three/drei'
+import { Label as Text } from './installations/Label'
+import { PROFILE, PROJECTS, MORE_PROJECTS, SKILLS, CERTIFICATES, TIMELINE, FONTS, SECRET } from '../config/content'
 import { getMaterials, ACCENT, ACCENT_DIM } from './materials'
 import { ProjectScreen } from './installations/ProjectScreen'
 import { CertFrame } from './installations/CertFrame'
@@ -10,6 +11,7 @@ import { SkillMonolith } from './installations/SkillMonolith'
 import { Pedestal } from './installations/Pedestal'
 import { TextPanel } from './installations/TextPanel'
 import { Trophy } from './installations/Trophy'
+import { FloorLamp } from './installations/FloorLamp'
 import { Dust } from './fx/Dust'
 import { LightShaft } from './fx/LightShaft'
 import { addCollider, removeCollider } from '../systems/physics/colliders'
@@ -47,17 +49,17 @@ export function Lobby() {
       <LightShaft position={[0, 2.6, 10]} height={5.2} topRadius={0.9} bottomRadius={2.4} opacity={0.05} />
       <Dust center={[0, 2.4, 10]} size={[10, 4.5, 10]} count={220} />
 
-      {/* Museum name above the hall doorway */}
+      {/* Building sign above the hall doorway (no name on the building) */}
       <Text
         font={FONTS.serif300}
-        fontSize={0.46}
+        fontSize={0.42}
         color="#ece6da"
         anchorX="center"
-        position={[0, 3.95, 4.24]}
-        letterSpacing={0.16}
+        position={[0, 3.9, 4.24]}
+        letterSpacing={0.2}
         maxWidth={11}
       >
-        CRISTIAN CIULICĂ
+        THE GALLERY
       </Text>
       <Text
         font={FONTS.sans400}
@@ -67,8 +69,12 @@ export function Lobby() {
         position={[0, 3.5, 4.24]}
         letterSpacing={0.5}
       >
-        GALLERY OF WORK
+        A MUSEUM OF WORK
       </Text>
+
+      {/* Warm interactive lamps flanking the lobby */}
+      <FloorLamp position={[-4.7, 0, 11]} />
+      <FloorLamp position={[4.7, 0, 11]} />
 
       {/* Wayfinding */}
       <Text font={FONTS.sans400} fontSize={0.15} color="#8f8a7d" position={[-5.74, 2.2, 8]} rotation-y={Math.PI / 2} letterSpacing={0.3} anchorX="center">
@@ -95,7 +101,7 @@ function PortraitFrame() {
     texture.colorSpace = THREE.SRGBColorSpace
   }, [texture])
   return (
-    <group position={[-13.76, 2.05, 8]} rotation-y={Math.PI / 2}>
+    <group position={[-13.73, 2.05, 8]} rotation-y={Math.PI / 2}>
       <mesh material={materials.brass} position={[0, 0, -0.05]} castShadow>
         <boxGeometry args={[2.15, 2.7, 0.1]} />
       </mesh>
@@ -132,6 +138,7 @@ export function AboutRoom() {
         exhibit="octahedron"
         onInteract={() => window.open(PROFILE.resume, '_blank', 'noopener')}
       />
+      <FloorLamp position={[-7, 0, 5.6]} />
       <Dust center={[-10, 2.2, 8]} size={[7, 3.5, 7]} count={120} />
     </group>
   )
@@ -139,18 +146,18 @@ export function AboutRoom() {
 
 // ── Projects hall ──────────────────────────────────────────────────
 export function ProjectsHall() {
-  const p = PROJECTS
+  const main = PROJECTS
+  const more = MORE_PROJECTS
   return (
     <group>
-      {/* North wall pair (either side of the gallery door) */}
-      <ProjectScreen project={p[0]} position={[-6, 2.0, -7.58]} />
-      <ProjectScreen project={p[1]} position={[6, 2.0, -7.58]} />
-      {/* South wall pair */}
-      <ProjectScreen project={p[2]} position={[-8.5, 2.0, 3.58]} rotationY={Math.PI} />
-      <ProjectScreen project={p[3]} position={[8.5, 2.0, 3.58]} rotationY={Math.PI} />
-      {/* End walls */}
-      <ProjectScreen project={p[4]} position={[-14.58, 2.0, -2]} rotationY={Math.PI / 2} />
-      <ProjectScreen project={p[5]} position={[14.58, 2.0, -2]} rotationY={-Math.PI / 2} />
+      {/* Main projects: flanking the gallery door + west end wall */}
+      <ProjectScreen project={main[0]} position={[-6, 2.0, -7.58]} />
+      <ProjectScreen project={main[1]} position={[6, 2.0, -7.58]} />
+      <ProjectScreen project={main[2]} position={[-14.58, 2.0, -2]} rotationY={Math.PI / 2} />
+      {/* Earlier work: east end wall + south wall pair */}
+      <ProjectScreen project={more[0]} position={[14.58, 2.0, -2]} rotationY={-Math.PI / 2} />
+      <ProjectScreen project={more[1]} position={[-8.5, 2.0, 3.58]} rotationY={Math.PI} />
+      <ProjectScreen project={more[2]} position={[8.5, 2.0, 3.58]} rotationY={Math.PI} />
 
       <Text
         font={FONTS.serif300}
@@ -161,7 +168,19 @@ export function ProjectsHall() {
         letterSpacing={0.22}
         maxWidth={12}
       >
-        SELECTED WORKS
+        MAIN PROJECTS
+      </Text>
+      <Text
+        font={FONTS.serif300}
+        fontSize={0.28}
+        color="#b9b2a2"
+        anchorX="center"
+        position={[0, 4.3, 3.76]}
+        rotation-y={Math.PI}
+        letterSpacing={0.22}
+        maxWidth={12}
+      >
+        MORE WORKS
       </Text>
 
       {/* The Krontech cup, center stage */}
@@ -201,7 +220,7 @@ export function NorthGallery() {
         <CertFrame
           key={c.id}
           cert={c}
-          position={[-9.82, 2.1, -9.9 - i * 2.3]}
+          position={[-9.76, 2.1, -9.9 - i * 2.3]}
           rotationY={Math.PI / 2}
           crooked={i === CERTIFICATES.length - 1}
         />
@@ -217,13 +236,13 @@ export function NorthGallery() {
               fontSize={0.34}
               color={ACCENT}
               anchorX="left"
-              position={[9.82, 3.05, z]}
+              position={[9.8, 3.05, z]}
               rotation-y={-Math.PI / 2}
             >
               {t.year}
             </Text>
             <TextPanel
-              position={[9.82, 2.55, z]}
+              position={[9.8, 2.55, z]}
               rotationY={-Math.PI / 2}
               heading={t.title}
               body={t.detail}
@@ -337,6 +356,7 @@ export function ContactRoom() {
         exhibit="torusKnot"
         onInteract={() => setModal({ type: 'contact' })}
       />
+      <FloorLamp position={[7, 0, 5.6]} />
       <Text
         font={FONTS.sans400}
         fontSize={0.14}

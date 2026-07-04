@@ -44,20 +44,20 @@ export function Shell() {
         <planeGeometry args={[INTERIOR.maxX - INTERIOR.minX, INTERIOR.maxZ - INTERIOR.minZ]} />
         {quality === 'high' ? (
           <MeshReflectorMaterial
-            resolution={512}
-            mirror={0.45}
-            mixBlur={6}
-            mixStrength={1.6}
-            blur={[280, 100]}
-            depthScale={0.6}
+            resolution={256}
+            mirror={0.35}
+            mixBlur={2.5}
+            mixStrength={1.1}
+            blur={[140, 60]}
+            depthScale={0.5}
             minDepthThreshold={0.4}
             maxDepthThreshold={1.4}
-            color="#1b1c1e"
-            roughness={0.7}
-            metalness={0.4}
+            color="#33363b"
+            roughness={0.65}
+            metalness={0.35}
           />
         ) : (
-          <meshStandardMaterial color="#1e1f21" roughness={0.3} metalness={0.5} />
+          <meshStandardMaterial color="#383b40" roughness={0.4} metalness={0.4} />
         )}
       </mesh>
 

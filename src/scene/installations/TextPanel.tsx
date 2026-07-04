@@ -1,4 +1,4 @@
-import { Text } from '@react-three/drei'
+import { Label as Text } from './Label'
 import { FONTS } from '../../config/content'
 import { ACCENT } from '../materials'
 

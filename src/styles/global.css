@@ -276,13 +276,18 @@ button { font-family: var(--sans); cursor: pointer; }
 /* Minimap */
 .minimap {
   position: absolute; top: 1.4rem; right: 1.6rem;
-  background: rgba(16, 16, 21, 0.45);
-  backdrop-filter: blur(20px) saturate(1.5);
-  -webkit-backdrop-filter: blur(20px) saturate(1.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(16, 16, 21, 0.5);
+  backdrop-filter: blur(22px) saturate(1.6);
+  -webkit-backdrop-filter: blur(22px) saturate(1.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-sm);
-  box-shadow: var(--shadow);
-  padding: 0.7rem;
+  box-shadow: var(--shadow), var(--glass-highlight);
+  padding: 0.7rem 0.7rem 0.55rem;
+}
+.minimap__title {
+  font-size: 0.58rem; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--accent-bright); text-align: center;
+  margin-bottom: 0.5rem;
 }
 .minimap svg { display: block; }
 
@@ -416,35 +421,91 @@ button { font-family: var(--sans); cursor: pointer; }
 }
 .touch__btn--active { background: rgba(216,180,126,0.4); border-color: var(--accent); }
 
-/* ── 2D gallery ─────────────────────────────────────────── */
+/* ── 2D gallery — light, Apple-style ────────────────────── */
 .g2d {
+  /* Light theme scoped here so inline var(--accent) etc. resolve to the
+     Apple palette without touching the dark 3D UI. */
+  --ink: #1d1d1f;
+  --ink-dim: #6e6e73;
+  --accent: #0071e3;
+  --accent-bright: #0077ed;
+  --line: rgba(0, 0, 0, 0.1);
+
   position: fixed; inset: 0; z-index: 35;
-  overflow-y: auto; background: var(--bg);
+  overflow-y: auto;
+  background:
+    radial-gradient(120% 60% at 50% -10%, #eaf2ff 0%, rgba(234, 242, 255, 0) 60%),
+    #fbfbfd;
+  color: var(--ink);
   padding: clamp(1.5rem, 5vw, 4rem);
+  font-family: var(--sans);
 }
-.g2d__inner { max-width: 52rem; margin: 0 auto; }
-.g2d h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(2.2rem, 6vw, 3.6rem); margin: 0.4rem 0 0.6rem; }
+.g2d__inner { max-width: 60rem; margin: 0 auto; }
+.g2d h1 {
+  font-family: var(--sans); font-weight: 600; letter-spacing: -0.02em;
+  font-size: clamp(2.4rem, 7vw, 4.2rem); margin: 0.4rem 0 0.4rem; color: #1d1d1f;
+}
 .g2d h2 {
-  font-family: var(--serif); font-weight: 300; font-size: 1.7rem;
-  margin: 3.2rem 0 1.2rem; padding-bottom: 0.6rem;
-  border-bottom: 1px solid var(--line);
+  font-family: var(--sans); font-weight: 600; letter-spacing: -0.01em;
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  margin: 3.4rem 0 1.4rem; padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--line); color: #1d1d1f;
 }
-.g2d p { color: var(--ink-dim); line-height: 1.8; font-weight: 300; overflow-wrap: break-word; }
-.g2d__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 1.2rem; }
+.g2d h3 { color: #1d1d1f; }
+.g2d p { color: var(--ink-dim); line-height: 1.65; font-weight: 400; overflow-wrap: break-word; }
+.g2d__lead { font-size: 1.15rem; max-width: 42rem; }
+.g2d__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: 1.4rem; }
 .g2d__card {
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(22, 22, 27, 0.6);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--glass-highlight);
-  padding: 1.15rem;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 12px 30px rgba(0, 0, 0, 0.06);
+  padding: 1.1rem 1.1rem 1.25rem;
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.1), box-shadow 0.3s;
 }
-.g2d__card img { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; margin-bottom: 0.9rem; border-radius: 10px; }
-.g2d__card h3 { margin: 0 0 0.4rem; font-size: 1rem; font-weight: 500; }
-.g2d__card p { font-size: 0.84rem; margin: 0 0 0.8rem; }
-.g2d__links { display: flex; gap: 1rem; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; flex-wrap: wrap; }
+.g2d__card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 22px 44px rgba(0, 0, 0, 0.1);
+}
+.g2d__card img { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; margin-bottom: 1rem; border-radius: 12px; }
+.g2d__card h3 { margin: 0 0 0.4rem; font-size: 1.1rem; font-weight: 600; letter-spacing: -0.01em; }
+.g2d__card p { font-size: 0.9rem; margin: 0 0 0.7rem; }
+.g2d__tech { font-size: 0.74rem !important; letter-spacing: 0.02em; color: var(--accent) !important; font-weight: 500; }
+.g2d__links { display: flex; gap: 1.2rem; font-size: 0.86rem; font-weight: 500; letter-spacing: 0; text-transform: none; flex-wrap: wrap; }
 .g2d__links a { color: var(--accent); text-decoration: none; }
-.g2d__links a:hover { color: var(--accent-bright); }
-.g2d__topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+.g2d__links a:hover { text-decoration: underline; }
+.g2d__topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.4rem; }
+.g2d__eyebrow { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin: 0; font-weight: 600; }
+
+/* Apple-style pill button inside the light gallery */
+.g2d .btn {
+  background: var(--accent);
+  border: 1px solid transparent;
+  color: #ffffff;
+  box-shadow: none;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.7rem 1.5rem;
+}
+.g2d .btn:hover { background: #0077ed; color: #fff; transform: translateY(-1px); }
+.g2d .btn--secondary {
+  background: rgba(0, 113, 227, 0.1);
+  color: var(--accent);
+}
+.g2d .btn--secondary:hover { background: rgba(0, 113, 227, 0.16); color: var(--accent); }
+
+/* Skill bars, light theme */
+.g2d .skillbar__head { color: #1d1d1f; }
+.g2d .skillbar__track { background: rgba(0, 0, 0, 0.08); }
+.g2d .skillbar__fill { background: linear-gradient(90deg, #0071e3, #4aa3ff); }
+
+/* Timeline entries */
+.g2d__timeline { display: grid; gap: 1rem; }
+.g2d__tl { display: grid; grid-template-columns: 4.5rem 1fr; gap: 1.2rem; align-items: baseline; }
+.g2d__tl-year { font-weight: 600; color: var(--accent); font-size: 1.05rem; }
+.g2d__tl strong { color: #1d1d1f; font-weight: 600; }
 
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.001s !important; transition-duration: 0.001s !important; }

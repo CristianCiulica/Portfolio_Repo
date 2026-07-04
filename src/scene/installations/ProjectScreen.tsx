@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
-import { Text, useTexture } from '@react-three/drei'
+import { Label as Text } from './Label'
 import type { Project } from '../../config/content'
 import { FONTS } from '../../config/content'
+import { coverTexture } from '../covers'
 import { getMaterials } from '../materials'
 import { registerInteractable } from '../../systems/interactions'
 import { useMuseum } from '../../state/store'
@@ -29,7 +30,13 @@ export function ProjectScreen({
   rotationY?: number
 }) {
   const materials = useMemo(() => getMaterials(), [])
-  const texture = useTexture(project.image)
+  const texture = useMemo(() => {
+    if (!project.image) return coverTexture(project)
+    const t = new THREE.TextureLoader().load(project.image)
+    t.colorSpace = THREE.SRGBColorSpace
+    t.anisotropy = 4
+    return t
+  }, [project])
   const screenMat = useRef<THREE.MeshStandardMaterial>(null!)
   const spot = useRef<THREE.SpotLight>(null!)
   const glowMat = useRef<THREE.MeshBasicMaterial>(null!)
@@ -37,11 +44,6 @@ export function ProjectScreen({
   const activation = useRef(0)
   const proximity = useRef(0)
   const wasOn = useRef(false)
-
-  useEffect(() => {
-    texture.colorSpace = THREE.SRGBColorSpace
-    texture.anisotropy = 4
-  }, [texture])
 
   // World position for the interaction system
   const world = useMemo(() => new THREE.Vector3(...position), [position])

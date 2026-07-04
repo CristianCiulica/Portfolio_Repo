@@ -11,9 +11,11 @@ export function Lighting() {
 
   return (
     <group>
-      {/* Base */}
-      <ambientLight intensity={0.09} color="#c8cfdd" />
-      <hemisphereLight intensity={0.14} color="#aebad0" groundColor="#26221c" />
+      {/* Base — bright, airy gallery light. Carries most of the fill so we
+          can run fewer dynamic point lights (each one is evaluated per
+          fragment on a forward renderer). */}
+      <ambientLight intensity={0.46} color="#e9edf4" />
+      <hemisphereLight intensity={0.7} color="#dfe6f0" groundColor="#5c554a" />
 
       {/* Moonlight over the exterior approach */}
       <directionalLight
@@ -46,16 +48,18 @@ export function Lighting() {
         <object3D attach="target" position={[0, -1, 0]} />
       </spotLight>
 
-      {/* Warm per-room ceiling fills (cheap points, no shadows) */}
-      <pointLight position={[0, 4.4, 10]} intensity={7} distance={12} color={WARM_LIGHT} />
-      <pointLight position={[-10, 4.4, 8]} intensity={6.5} distance={10} color={WARM_LIGHT} />
-      <pointLight position={[10, 4.4, 8]} intensity={6.5} distance={10} color={WARM_LIGHT} />
-      <pointLight position={[-8, 4.6, -2]} intensity={8} distance={14} color={WARM_LIGHT} />
-      <pointLight position={[8, 4.6, -2]} intensity={8} distance={14} color={WARM_LIGHT} />
-      <pointLight position={[-5, 4.4, -12]} intensity={7.5} distance={12} color={WARM_LIGHT} />
-      <pointLight position={[5, 4.4, -12]} intensity={7.5} distance={12} color={WARM_LIGHT} />
+      {/* Warm per-room ceiling fills — trimmed to one strong light per zone.
+          The lobby/about/contact also get warmth from the interactive floor
+          lamps, so a single wide fill each is plenty. */}
+      <pointLight position={[0, 4.4, 9]} intensity={13} distance={15} color={WARM_LIGHT} />
+      <pointLight position={[-10, 4.4, 8]} intensity={11} distance={12} color={WARM_LIGHT} />
+      <pointLight position={[10, 4.4, 8]} intensity={11} distance={12} color={WARM_LIGHT} />
+      <pointLight position={[-7, 4.6, -2]} intensity={15} distance={17} color={WARM_LIGHT} />
+      <pointLight position={[7, 4.6, -2]} intensity={15} distance={17} color={WARM_LIGHT} />
+      <pointLight position={[0, 4.4, -12]} intensity={14} distance={17} color={WARM_LIGHT} />
+      <pointLight position={[6, 4.2, -19]} intensity={6} distance={9} color={WARM_LIGHT} />
       {/* Cool fill so shadows never go pure black */}
-      <pointLight position={[0, 3.5, -2]} intensity={2} distance={26} color={COOL_FILL} />
+      <pointLight position={[0, 3.5, -2]} intensity={4} distance={28} color={COOL_FILL} />
     </group>
   )
 }

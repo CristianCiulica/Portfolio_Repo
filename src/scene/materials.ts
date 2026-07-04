@@ -65,13 +65,13 @@ let cache: {
 export function getMaterials() {
   if (cache) return cache
 
-  const concreteCanvas = valueNoiseCanvas(512, 132, 14, 26)
+  const concreteCanvas = valueNoiseCanvas(512, 158, 12, 18)
   const concreteMap = makeTexture(concreteCanvas, 3)
   const concreteBump = new THREE.CanvasTexture(concreteCanvas)
   concreteBump.wrapS = concreteBump.wrapT = THREE.RepeatWrapping
   concreteBump.repeat.set(3, 3)
 
-  const plasterCanvas = valueNoiseCanvas(512, 208, 6, 4)
+  const plasterCanvas = valueNoiseCanvas(512, 228, 4, 3)
   const plasterMap = makeTexture(plasterCanvas, 2)
 
   cache = {
@@ -98,9 +98,9 @@ export function getMaterials() {
       metalness: 0.9,
     }),
     darkFloor: new THREE.MeshStandardMaterial({
-      color: '#232426',
-      roughness: 0.25,
-      metalness: 0.55,
+      color: '#3d4046',
+      roughness: 0.3,
+      metalness: 0.45,
     }),
   }
   return cache

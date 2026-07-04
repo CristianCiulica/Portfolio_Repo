@@ -64,7 +64,7 @@ export const useMuseum = create<MuseumStore>((set) => ({
   setToast: (toast) => set({ toast }),
   currentRoom: 'exterior',
   setCurrentRoom: (currentRoom) => set({ currentRoom }),
-  minimap: false,
+  minimap: true,
   toggleMinimap: () => set((s) => ({ minimap: !s.minimap })),
   pointerLocked: false,
   setPointerLocked: (pointerLocked) => set({ pointerLocked }),

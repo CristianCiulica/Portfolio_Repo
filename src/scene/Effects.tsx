@@ -6,14 +6,14 @@ export function Effects() {
   const high = quality === 'high'
 
   return (
-    <EffectComposer multisampling={high ? 4 : 0}>
+    <EffectComposer multisampling={high ? 2 : 0}>
       <Bloom
-        intensity={high ? 0.55 : 0.4}
-        luminanceThreshold={0.85}
+        intensity={high ? 0.45 : 0.35}
+        luminanceThreshold={0.9}
         luminanceSmoothing={0.25}
         mipmapBlur
       />
-      <Vignette eskil={false} offset={0.22} darkness={0.78} />
+      <Vignette eskil={false} offset={0.16} darkness={0.55} />
     </EffectComposer>
   )
 }

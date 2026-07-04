@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useMuseum } from '../state/store'
-import { PROJECTS, CERTIFICATES, SKILLS, TIMELINE, SECRET, PROFILE, ACHIEVEMENT } from '../config/content'
+import { PROJECTS, MORE_PROJECTS, CERTIFICATES, SKILLS, TIMELINE, SECRET, PROFILE, ACHIEVEMENT } from '../config/content'
+import { projectImageSrc } from '../scene/covers'
 import { playClose } from '../systems/audio/engine'
 
 const spring = { type: 'spring', stiffness: 260, damping: 26 } as const
@@ -61,13 +62,13 @@ export function Modals() {
 }
 
 function ProjectPanel({ id }: { id: string }) {
-  const p = PROJECTS.find((x) => x.id === id)
+  const p = [...PROJECTS, ...MORE_PROJECTS].find((x) => x.id === id)
   if (!p) return null
   return (
     <>
       <p className="panel__kicker">Installation · {p.short}</p>
       <h2 className="panel__title">{p.title}</h2>
-      <img className="panel__image" src={p.image} alt={`${p.title} screenshot`} />
+      <img className="panel__image" src={projectImageSrc(p)} alt={`${p.title} preview`} />
       <p className="panel__body">{p.description}</p>
       <div className="panel__tags">
         {p.tech.map((t) => (

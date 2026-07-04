@@ -140,41 +140,53 @@ export function Hud() {
 /** Top-down schematic of the floor plan with a live player dot. */
 function Minimap() {
   const secretUnlocked = useMuseum((s) => s.secretUnlocked)
+  const currentRoom = useMuseum((s) => s.currentRoom)
   const [, force] = useState(0)
   useEffect(() => {
-    const id = setInterval(() => force((n) => n + 1), 120)
+    const id = setInterval(() => force((n) => n + 1), 90)
     return () => clearInterval(id)
   }, [])
 
   // World → map: x right, z down. World x -16..16, z -23..17
-  const sx = (x: number) => ((x + 16) / 32) * 150
-  const sz = (z: number) => ((z + 23) / 40) * 185
+  const W = 150
+  const H = 185
+  const sx = (x: number) => ((x + 16) / 32) * W
+  const sz = (z: number) => ((z + 23) / 40) * H
+
+  const px = sx(playerState.x)
+  const py = sz(playerState.z)
 
   return (
     <div className="minimap">
-      <svg width={150} height={185} viewBox="0 0 150 185">
-        {ROOMS.filter((r) => r.id !== 'secret' || secretUnlocked).map((r) => (
-          <rect
-            key={r.id}
-            x={sx(r.minX)}
-            y={sz(r.minZ)}
-            width={sx(r.maxX) - sx(r.minX)}
-            height={sz(r.maxZ) - sz(r.minZ)}
-            fill="rgba(216,180,126,0.07)"
-            stroke="rgba(216,180,126,0.4)"
-            strokeWidth={1}
-          />
-        ))}
-        <circle cx={sx(playerState.x)} cy={sz(playerState.z)} r={3.4} fill="#ffd9a8" />
-        {/* facing tick: forward is (-sin yaw, -cos yaw) in world xz */}
+      <div className="minimap__title">{ROOM_LABELS[currentRoom] ?? 'Museum'}</div>
+      <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+        {ROOMS.filter((r) => r.id !== 'secret' || secretUnlocked).map((r) => {
+          const here = r.id === currentRoom
+          return (
+            <rect
+              key={r.id}
+              x={sx(r.minX)}
+              y={sz(r.minZ)}
+              width={sx(r.maxX) - sx(r.minX)}
+              height={sz(r.maxZ) - sz(r.minZ)}
+              rx={3}
+              fill={here ? 'rgba(216,180,126,0.28)' : 'rgba(255,255,255,0.05)'}
+              stroke={here ? 'rgba(255,217,168,0.9)' : 'rgba(255,255,255,0.22)'}
+              strokeWidth={here ? 1.5 : 1}
+            />
+          )
+        })}
+        {/* facing cone */}
         <line
-          x1={sx(playerState.x)}
-          y1={sz(playerState.z)}
-          x2={sx(playerState.x) - Math.sin(playerState.yaw) * 9}
-          y2={sz(playerState.z) - Math.cos(playerState.yaw) * 9}
+          x1={px}
+          y1={py}
+          x2={px - Math.sin(playerState.yaw) * 11}
+          y2={py - Math.cos(playerState.yaw) * 11}
           stroke="#ffd9a8"
-          strokeWidth={1.4}
+          strokeWidth={2}
+          strokeLinecap="round"
         />
+        <circle cx={px} cy={py} r={4.2} fill="#ffd9a8" stroke="#0b0b0e" strokeWidth={1.4} />
       </svg>
     </div>
   )
