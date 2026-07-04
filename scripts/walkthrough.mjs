@@ -69,8 +69,8 @@ const posAfterWalk = await page.evaluate(() => {
 })
 
 // Rooms tour
-await shot('05-projects-hall', 0, 1.5, 0)
-await shot('06-project-screen-close', -5, -4.8, 0) // in front of first screen
+await shot('05-projects-hall', 0, 1.8, 0)
+await shot('06-project-screen-close', -6, -4.6, 0) // in front of first screen
 const focusedAtScreen = await page.evaluate(() => window.__useMuseum.getState().focused)
 // Open the project modal via E
 await page.keyboard.press('KeyE')
@@ -80,23 +80,33 @@ const modalOpen = await page.evaluate(() => window.__useMuseum.getState().modal)
 await page.keyboard.press('Escape')
 await new Promise((r) => setTimeout(r, 600))
 
-await shot('08-skills', -10, -9.2, Math.PI, 0) // looking south? monoliths at z=-13 → face -z = yaw 0
-await shot('08b-skills-face', -10, -10.2, 0)
-await shot('09-experience', 0, -9.5, 0)
-await shot('10-certificates', 10, -12, 0)
+// Trophy in the hall center
+await shot('07b-trophy', 0, 0.6, 0, 0.12)
+const promptAtTrophy = await page.evaluate(() => window.__useMuseum.getState().focused)
+await page.keyboard.press('KeyE')
+await new Promise((r) => setTimeout(r, 1200))
+await page.screenshot({ path: `${OUT}/07c-trophy-modal.png` })
+const trophyModal = await page.evaluate(() => window.__useMuseum.getState().modal)
+await page.keyboard.press('Escape')
+await new Promise((r) => setTimeout(r, 600))
+
+await shot('08-gallery-entrance', 0, -9, 0)
+await shot('08b-monoliths', -4, -10, 0.3)
+await shot('09-journey-wall', 7.2, -12, -Math.PI / 2)
+await shot('10-certificates', -7, -12.2, Math.PI / 2)
 await shot('11-about', -7, 8, Math.PI / 2)
 await shot('12-contact', 8, 8, -Math.PI / 2)
 await shot('13-lobby-back', 0, 12, Math.PI)
 
-// Secret: face the crooked frame (last certificate, x=12.6), straighten it
-await shot('13b-at-crooked-frame', 12.6, -14.1, 0, 0.15, 1200)
+// Secret: face the crooked frame (last certificate, west wall z=-14.5)
+await shot('13b-at-crooked-frame', -7.9, -14.5, Math.PI / 2, 0.1, 1200)
 const promptAtCert = await page.evaluate(() => window.__useMuseum.getState().focused)
 await page.keyboard.press('KeyE')
 await new Promise((r) => setTimeout(r, 1800))
 await page.screenshot({ path: `${OUT}/13c-straightened.png` })
 const secret = await page.evaluate(() => window.__useMuseum.getState().secretUnlocked)
-await shot('14-secret-door-open', 0, -12.5, 0, 0, 3500)
-await shot('15-archive', 0, -17.4, 0, 0)
+await shot('14-secret-door-open', 6, -12.5, 0, 0, 3500)
+await shot('15-archive', 6, -17.4, 0, 0)
 
 // 2D gallery parity
 await page.evaluate(() => {
@@ -109,7 +119,7 @@ const g2dSections = await page.evaluate(() => document.querySelectorAll('.g2d se
 
 console.log(
   JSON.stringify(
-    { posAfterWalk, focusedAtScreen, modalOpen, promptAtCert, secret, g2dSections, errors },
+    { posAfterWalk, focusedAtScreen, modalOpen, promptAtTrophy, trophyModal, promptAtCert, secret, g2dSections, errors },
     null,
     2,
   ),

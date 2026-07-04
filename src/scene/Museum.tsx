@@ -3,16 +3,7 @@ import { Shell } from './Shell'
 import { Doors } from './Doors'
 import { Lighting } from './Lighting'
 import { Exterior } from './Exterior'
-import {
-  Lobby,
-  AboutRoom,
-  ProjectsHall,
-  SkillsGallery,
-  ExperienceRoom,
-  CertificatesWall,
-  ContactRoom,
-  SecretRoom,
-} from './Rooms'
+import { Lobby, AboutRoom, ProjectsHall, NorthGallery, ContactRoom, SecretRoom } from './Rooms'
 
 export function Museum() {
   return (
@@ -25,9 +16,7 @@ export function Museum() {
         <Lobby />
         <AboutRoom />
         <ProjectsHall />
-        <SkillsGallery />
-        <ExperienceRoom />
-        <CertificatesWall />
+        <NorthGallery />
         <ContactRoom />
         <SecretRoom />
       </Suspense>

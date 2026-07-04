@@ -35,7 +35,7 @@ function valueNoiseCanvas(
     const r = size * (0.08 + Math.random() * 0.22)
     const grad = g.createRadialGradient(x, y, 0, x, y, r)
     const dark = Math.random() > 0.5
-    grad.addColorStop(0, dark ? 'rgba(0,0,0,0.055)' : 'rgba(255,255,255,0.045)')
+    grad.addColorStop(0, dark ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.03)')
     grad.addColorStop(1, 'rgba(0,0,0,0)')
     g.fillStyle = grad
     g.beginPath()
@@ -71,7 +71,7 @@ export function getMaterials() {
   concreteBump.wrapS = concreteBump.wrapT = THREE.RepeatWrapping
   concreteBump.repeat.set(3, 3)
 
-  const plasterCanvas = valueNoiseCanvas(512, 208, 7, 10)
+  const plasterCanvas = valueNoiseCanvas(512, 208, 6, 4)
   const plasterMap = makeTexture(plasterCanvas, 2)
 
   cache = {

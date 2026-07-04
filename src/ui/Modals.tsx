@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useMuseum } from '../state/store'
-import { PROJECTS, CERTIFICATES, SKILLS, TIMELINE, SECRET, PROFILE } from '../config/content'
+import { PROJECTS, CERTIFICATES, SKILLS, TIMELINE, SECRET, PROFILE, ACHIEVEMENT } from '../config/content'
 import { playClose } from '../systems/audio/engine'
 
 const spring = { type: 'spring', stiffness: 260, damping: 26 } as const
@@ -51,6 +51,7 @@ export function Modals() {
             {modal.type === 'cert' && <CertPanel id={modal.id} />}
             {modal.type === 'skills' && <SkillsPanel id={modal.id} />}
             {modal.type === 'contact' && <ContactPanel />}
+            {modal.type === 'trophy' && <TrophyPanel />}
             {modal.type === 'archive' && <ArchivePanel />}
           </motion.div>
         </motion.div>
@@ -169,6 +170,16 @@ function ContactPanel() {
           Resume (PDF) ↗
         </a>
       </div>
+    </>
+  )
+}
+
+function TrophyPanel() {
+  return (
+    <>
+      <p className="panel__kicker">Achievement · {ACHIEVEMENT.place.toLowerCase()}</p>
+      <h2 className="panel__title">{ACHIEVEMENT.title}</h2>
+      <p className="panel__body">{ACHIEVEMENT.description}</p>
     </>
   )
 }

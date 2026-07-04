@@ -103,12 +103,13 @@ export function SkillMonolith({
       </Text>
       <Text
         font={FONTS.sans400}
-        fontSize={0.088}
-        color="#98917f"
+        fontSize={0.085}
+        color="#a89f8e"
         anchorX="left"
         anchorY="top"
-        position={[0.65, H - 0.5, 0.1]}
+        position={[0.62, H - 0.55, 0.05]}
         lineHeight={1.7}
+        maxWidth={1.4}
       >
         {group.skills.map((s) => s.name).join('\n')}
       </Text>

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { useFrame, useThree } from '@react-three/fiber'
-import { DOORS, DOOR_H, WALL_T } from './layout'
+import { DOORS, DOOR_H, WALL_T, SECRET_PANEL } from './layout'
 import { getMaterials } from './materials'
 import { addCollider, setColliderEnabled, removeCollider } from '../systems/physics/colliders'
 import { playDoor, playSecret } from '../systems/audio/engine'
@@ -85,11 +85,13 @@ function EntranceDoor() {
 
   const glass = (
     <meshPhysicalMaterial
-      color="#9fb4c8"
+      color="#aebfd2"
       transparent
-      opacity={0.22}
-      roughness={0.04}
-      metalness={0.2}
+      opacity={0.16}
+      roughness={0.03}
+      metalness={0.1}
+      clearcoat={1}
+      clearcoatRoughness={0.06}
       side={2}
     />
   )
@@ -116,7 +118,13 @@ function SecretPanel() {
   const played = useRef(false)
 
   useEffect(() => {
-    addCollider(-1.3, 1.3, -16 - WALL_T / 2, -16 + WALL_T / 2, 'col-secret')
+    addCollider(
+      SECRET_PANEL.x - SECRET_PANEL.width / 2,
+      SECRET_PANEL.x + SECRET_PANEL.width / 2,
+      SECRET_PANEL.z - WALL_T / 2,
+      SECRET_PANEL.z + WALL_T / 2,
+      'col-secret',
+    )
     return () => removeCollider('col-secret')
   }, [])
 
@@ -138,8 +146,13 @@ function SecretPanel() {
   })
 
   return (
-    <mesh ref={panel} position={[0, DOOR_H / 2, -16]} material={materials.plaster} castShadow>
-      <boxGeometry args={[2.6, DOOR_H, WALL_T * 0.9]} />
+    <mesh
+      ref={panel}
+      position={[SECRET_PANEL.x, DOOR_H / 2, SECRET_PANEL.z]}
+      material={materials.plaster}
+      castShadow
+    >
+      <boxGeometry args={[SECRET_PANEL.width, DOOR_H, WALL_T * 0.9]} />
     </mesh>
   )
 }

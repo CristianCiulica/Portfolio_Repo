@@ -52,9 +52,8 @@ export function Lighting() {
       <pointLight position={[10, 4.4, 8]} intensity={6.5} distance={10} color={WARM_LIGHT} />
       <pointLight position={[-8, 4.6, -2]} intensity={8} distance={14} color={WARM_LIGHT} />
       <pointLight position={[8, 4.6, -2]} intensity={8} distance={14} color={WARM_LIGHT} />
-      <pointLight position={[-10, 4.4, -12]} intensity={7} distance={11} color={WARM_LIGHT} />
-      <pointLight position={[0, 4.4, -12]} intensity={7} distance={11} color={WARM_LIGHT} />
-      <pointLight position={[10, 4.4, -12]} intensity={7} distance={11} color={WARM_LIGHT} />
+      <pointLight position={[-5, 4.4, -12]} intensity={7.5} distance={12} color={WARM_LIGHT} />
+      <pointLight position={[5, 4.4, -12]} intensity={7.5} distance={12} color={WARM_LIGHT} />
       {/* Cool fill so shadows never go pure black */}
       <pointLight position={[0, 3.5, -2]} intensity={2} distance={26} color={COOL_FILL} />
     </group>
