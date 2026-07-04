@@ -24,44 +24,38 @@ export function IntroOverlay() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 1.2 } }}
         >
-          <motion.div
-            className="intro__card"
-            initial={{ opacity: 0, y: 26, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1, transition: { delay: 0.25, duration: 1, ease: [0.2, 0.9, 0.25, 1] } }}
+          <motion.p
+            className="intro__kicker"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0, transition: { delay: 0.3, duration: 0.9 } }}
           >
-            <motion.p
-              className="intro__kicker"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0, transition: { delay: 0.5, duration: 0.8 } }}
-            >
-              A museum of work
-            </motion.p>
-            <motion.h1
-              className="intro__title"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0, transition: { delay: 0.7, duration: 1 } }}
-            >
-              {PROFILE.name}
-            </motion.h1>
-            <motion.p
-              className="intro__subtitle"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1, transition: { delay: 1.1, duration: 0.9 } }}
-            >
-              {PROFILE.title} — every room a skill, every project an installation.
-            </motion.p>
-            <motion.div
-              className="intro__actions"
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0, transition: { delay: 1.4, duration: 0.8 } }}
-            >
-              <button className="btn btn--primary" onClick={enter}>
-                Enter the gallery
-              </button>
-              <button className="btn" onClick={() => setPhase('gallery2d')}>
-                View 2D version
-              </button>
-            </motion.div>
+            A museum of work
+          </motion.p>
+          <motion.h1
+            className="intro__title"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0, transition: { delay: 0.55, duration: 1.1 } }}
+          >
+            {PROFILE.name}
+          </motion.h1>
+          <motion.p
+            className="intro__subtitle"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: { delay: 1.1, duration: 1 } }}
+          >
+            {PROFILE.title} — every room a skill, every project an installation.
+          </motion.p>
+          <motion.div
+            className="intro__actions"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0, transition: { delay: 1.5, duration: 0.9 } }}
+          >
+            <button className="btn btn--primary" onClick={enter}>
+              Enter the gallery
+            </button>
+            <button className="btn" onClick={() => setPhase('gallery2d')}>
+              View 2D version
+            </button>
           </motion.div>
           <motion.p
             className="intro__hint"

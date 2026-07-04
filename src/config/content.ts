@@ -208,14 +208,6 @@ export const TIMELINE: TimelineEntry[] = [
   },
 ]
 
-export const ACHIEVEMENT = {
-  id: 'krontech',
-  place: '7TH PLACE',
-  title: 'Krontech Challenge 2026',
-  description:
-    'Seventh place at the Krontech Challenge 2026 — a timed engineering competition of algorithmic and systems problems. The cup lives here, in the middle of the hall, because it was earned the same way everything else in this museum was: by showing up and building.',
-}
-
 export const SECRET = {
   funFacts: [
     'This entire museum weighs less than a single photo of it — every texture and sound is generated in code.',
@@ -236,7 +228,9 @@ export const ROOM_LABELS: Record<string, string> = {
   lobby: 'Lobby',
   about: 'About',
   hall: 'Projects Hall',
-  gallery: 'Skills & Journey',
+  skills: 'Skills Gallery',
+  experience: 'The Journey',
+  certificates: 'Certificates',
   contact: 'Contact',
   secret: 'The Archive',
   exterior: 'Outside',

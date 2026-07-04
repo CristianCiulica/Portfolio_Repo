@@ -32,15 +32,31 @@ export const WALLS: WallRun[] = [
   { axis: 'x', fixed: 4, from: -15, to: 15, openings: [[-2.2, 2.2]] }, // lobby → hall
   { axis: 'z', fixed: -15, from: -8, to: 4 },
   { axis: 'z', fixed: 15, from: -8, to: 4 },
-  { axis: 'x', fixed: -8, from: -15, to: 15, openings: [[-2.2, 2.2]] }, // hall → gallery
-  // ── North gallery: Skills · Journey · Certificates ─────────────
-  { axis: 'z', fixed: -10, from: -16, to: -8 },
-  { axis: 'z', fixed: 10, from: -16, to: -8 },
-  { axis: 'x', fixed: -16, from: -10, to: 10, openings: [[4.7, 7.3]] }, // secret panel
-  // ── Secret room (behind the gallery's north-east corner) ──────
-  { axis: 'z', fixed: 2, from: -22, to: -16 },
-  { axis: 'z', fixed: 10, from: -22, to: -16 },
-  { axis: 'x', fixed: -22, from: 2, to: 10 },
+  {
+    axis: 'x',
+    fixed: -8,
+    from: -15,
+    to: 15,
+    openings: [
+      [-11.5, -8.5], // → skills
+      [-1.5, 1.5], // → experience
+      [8.5, 11.5], // → certificates
+    ],
+  },
+  // ── North wing: Skills / Experience / Certificates ─────────────
+  { axis: 'z', fixed: -15, from: -16, to: -8 },
+  { axis: 'z', fixed: -5, from: -16, to: -8 },
+  { axis: 'x', fixed: -16, from: -15, to: -5 },
+  { axis: 'z', fixed: -4, from: -16, to: -8 },
+  { axis: 'z', fixed: 4, from: -16, to: -8 },
+  { axis: 'x', fixed: -16, from: -4, to: 4, openings: [[-1.3, 1.3]] }, // secret panel
+  { axis: 'z', fixed: 5, from: -16, to: -8 },
+  { axis: 'z', fixed: 15, from: -16, to: -8 },
+  { axis: 'x', fixed: -16, from: 5, to: 15 },
+  // ── Secret room ────────────────────────────────────────────────
+  { axis: 'z', fixed: -4, from: -22, to: -16 },
+  { axis: 'z', fixed: 4, from: -22, to: -16 },
+  { axis: 'x', fixed: -22, from: -4, to: 4 },
 ]
 
 export interface Segment {
@@ -93,8 +109,10 @@ export const ROOMS: RoomDef[] = [
   { id: 'about', minX: -14, maxX: -6, minZ: 4, maxZ: 12 },
   { id: 'contact', minX: 6, maxX: 14, minZ: 4, maxZ: 12 },
   { id: 'hall', minX: -15, maxX: 15, minZ: -8, maxZ: 4 },
-  { id: 'gallery', minX: -10, maxX: 10, minZ: -16, maxZ: -8 },
-  { id: 'secret', minX: 2, maxX: 10, minZ: -22, maxZ: -16 },
+  { id: 'skills', minX: -15, maxX: -5, minZ: -16, maxZ: -8 },
+  { id: 'experience', minX: -4, maxX: 4, minZ: -16, maxZ: -8 },
+  { id: 'certificates', minX: 5, maxX: 15, minZ: -16, maxZ: -8 },
+  { id: 'secret', minX: -4, maxX: 4, minZ: -22, maxZ: -16 },
 ]
 
 export function roomAt(x: number, z: number): string {
@@ -109,7 +127,8 @@ export const INTERIOR = { minX: -15, maxX: 15, minZ: -22, maxZ: 16 }
 
 export const SPAWN = { x: 0, y: 0, z: 13.2, yaw: 0 } // yaw 0 faces -z
 
-export const DOORS = [{ id: 'door-gallery', x: 0, z: -8, axis: 'x' as const, width: 4 }]
-
-/** The hidden panel guarding the Archive (opening in the gallery's north wall). */
-export const SECRET_PANEL = { x: 6, z: -16, width: 2.6 }
+export const DOORS = [
+  { id: 'door-skills', x: -10, z: -8, axis: 'x' as const, width: 3 },
+  { id: 'door-experience', x: 0, z: -8, axis: 'x' as const, width: 3 },
+  { id: 'door-certificates', x: 10, z: -8, axis: 'x' as const, width: 3 },
+]

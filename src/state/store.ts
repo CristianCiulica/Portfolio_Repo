@@ -8,7 +8,6 @@ export type Modal =
   | { type: 'skills'; id: string }
   | { type: 'archive' }
   | { type: 'contact' }
-  | { type: 'trophy' }
   | null
 
 export interface Settings {

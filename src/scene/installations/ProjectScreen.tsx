@@ -13,8 +13,6 @@ const SCREEN_W = 3.3
 const SCREEN_H = 2.06
 const FRAME_PAD = 0.16
 
-const scratch = new THREE.Vector3()
-
 /**
  * A wall-mounted digital installation: black metal frame, emissive screen
  * that powers on as the visitor approaches, museum spotlight, brass plaque.
@@ -33,7 +31,6 @@ export function ProjectScreen({
   const screenMat = useRef<THREE.MeshStandardMaterial>(null!)
   const spot = useRef<THREE.SpotLight>(null!)
   const glowMat = useRef<THREE.MeshBasicMaterial>(null!)
-  const tilt = useRef<THREE.Group>(null!)
   const activation = useRef(0)
   const proximity = useRef(0)
   const wasOn = useRef(false)
@@ -70,96 +67,83 @@ export function ProjectScreen({
 
   useFrame((state, dt) => {
     const target = proximity.current > 0.25 ? 1 : 0.12
-    const poweringUp = target > activation.current + 0.01
     if (target === 1 && !wasOn.current) wasOn.current = true
-    const rate = poweringUp ? 3.4 : 2.2
+    // Power-on ramps quickly with a touch of flicker; power-down is slower
+    const rate = target > activation.current ? 3.2 : 1.2
     activation.current += (target - activation.current) * Math.min(1, rate * dt)
     const a = activation.current
-    // A short CRT-style flutter only while powering up — steady otherwise
     const flicker =
-      poweringUp && a > 0.2 && a < 0.9
-        ? 0.82 + 0.18 * Math.sin(state.clock.elapsedTime * 47) * Math.sin(state.clock.elapsedTime * 31)
+      a > 0.15 && a < 0.92
+        ? 0.75 + 0.25 * Math.sin(state.clock.elapsedTime * 47) * Math.sin(state.clock.elapsedTime * 31)
         : 1
     if (screenMat.current) screenMat.current.emissiveIntensity = a * 1.05 * flicker
     if (spot.current) spot.current.intensity = 4 + a * 26
-    if (glowMat.current) glowMat.current.opacity = a * 0.09
-
-    // Subtle "notice the visitor" tilt toward the camera
-    if (tilt.current && tilt.current.parent) {
-      const local = tilt.current.parent.worldToLocal(scratch.copy(state.camera.position))
-      const want =
-        proximity.current > 0.05
-          ? THREE.MathUtils.clamp(Math.atan2(local.x, local.z) * 0.06, -0.05, 0.05)
-          : 0
-      tilt.current.rotation.y += (want - tilt.current.rotation.y) * Math.min(1, 3 * dt)
-    }
+    if (glowMat.current) glowMat.current.opacity = a * 0.1
   })
 
   return (
     <group position={position} rotation-y={rotationY}>
-      <group ref={tilt}>
-        {/* Frame */}
-        <mesh material={materials.blackMetal} castShadow position={[0, 0, -0.04]}>
-          <boxGeometry args={[SCREEN_W + FRAME_PAD * 2, SCREEN_H + FRAME_PAD * 2, 0.14]} />
-        </mesh>
-        {/* Screen */}
-        <mesh position={[0, 0, 0.04]}>
-          <planeGeometry args={[SCREEN_W, SCREEN_H]} />
-          <meshStandardMaterial
-            ref={screenMat}
-            map={texture}
-            emissiveMap={texture}
-            emissive="#ffffff"
-            emissiveIntensity={0.12}
-            roughness={0.35}
-            metalness={0}
-            toneMapped={true}
-          />
-        </mesh>
-        {/* Soft halo behind the frame — kept clear of the wall so nothing z-fights */}
-        <mesh position={[0, 0, -0.11]} renderOrder={2}>
-          <planeGeometry args={[SCREEN_W + 1.4, SCREEN_H + 1.2]} />
-          <meshBasicMaterial
-            ref={glowMat}
-            color={project.accent}
-            transparent
-            opacity={0}
-            blending={THREE.AdditiveBlending}
-            depthWrite={false}
-            depthTest={true}
-          />
-        </mesh>
+      {/* Frame */}
+      <mesh material={materials.blackMetal} castShadow position={[0, 0, -0.04]}>
+        <boxGeometry args={[SCREEN_W + FRAME_PAD * 2, SCREEN_H + FRAME_PAD * 2, 0.14]} />
+      </mesh>
+      {/* Screen */}
+      <mesh position={[0, 0, 0.04]}>
+        <planeGeometry args={[SCREEN_W, SCREEN_H]} />
+        <meshStandardMaterial
+          ref={screenMat}
+          map={texture}
+          emissiveMap={texture}
+          emissive="#ffffff"
+          emissiveIntensity={0.12}
+          roughness={0.35}
+          metalness={0}
+          toneMapped={true}
+        />
+      </mesh>
+      {/* Soft halo behind the frame */}
+      <mesh position={[0, 0, -0.13]}>
+        <planeGeometry args={[SCREEN_W + 1.4, SCREEN_H + 1.2]} />
+        <meshBasicMaterial
+          ref={glowMat}
+          color={project.accent}
+          transparent
+          opacity={0}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
 
-        {/* Brass plaque with the title & tech engraving */}
-        <mesh position={[0, -SCREEN_H / 2 - 0.46, 0]} material={materials.brass}>
-          <boxGeometry args={[SCREEN_W * 0.78, 0.56, 0.03]} />
-        </mesh>
-        <Text
-          font={FONTS.serif500}
-          fontSize={0.17}
-          color="#f2ecdf"
-          anchorX="center"
-          anchorY="middle"
-          position={[0, -SCREEN_H / 2 - 0.37, 0.045]}
-          maxWidth={SCREEN_W * 0.72}
-          textAlign="center"
-        >
-          {project.title}
-        </Text>
-        <Text
-          font={FONTS.sans400}
-          fontSize={0.072}
-          color="#3d2f1c"
-          anchorX="center"
-          anchorY="middle"
-          position={[0, -SCREEN_H / 2 - 0.58, 0.045]}
-          letterSpacing={0.14}
-          maxWidth={SCREEN_W * 0.74}
-          textAlign="center"
-        >
-          {project.tech.slice(0, 4).join('  ·  ').toUpperCase()}
-        </Text>
-      </group>
+      {/* Title & tech engraving */}
+      <Text
+        font={FONTS.serif500}
+        fontSize={0.19}
+        color="#e8e2d6"
+        anchorX="center"
+        anchorY="top"
+        position={[0, -SCREEN_H / 2 - 0.3, 0.02]}
+        maxWidth={SCREEN_W}
+      >
+        {project.title}
+      </Text>
+      <Text
+        font={FONTS.sans400}
+        fontSize={0.085}
+        color={ACCENT}
+        anchorX="center"
+        anchorY="top"
+        position={[0, -SCREEN_H / 2 - 0.58, 0.02]}
+        letterSpacing={0.12}
+        maxWidth={SCREEN_W}
+      >
+        {project.tech.slice(0, 4).join('   ·   ').toUpperCase()}
+      </Text>
+
+      {/* Brass plaque */}
+      <mesh position={[0, -SCREEN_H / 2 - 0.44, 0]} material={materials.brass}>
+        <boxGeometry args={[SCREEN_W * 0.72, 0.5, 0.02]} />
+      </mesh>
 
       {/* Museum spotlight (no shadow — budget) */}
       <spotLight
