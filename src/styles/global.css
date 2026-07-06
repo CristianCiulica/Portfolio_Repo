@@ -1,13 +1,13 @@
 :root {
   --bg: #0b0b0e;
   --glass: rgba(22, 22, 27, 0.55);
-  --glass-strong: rgba(18, 18, 23, 0.72);
+  --glass-strong: rgba(18, 18, 23, 0.86);
   --glass-border: rgba(255, 255, 255, 0.14);
   --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.09);
   --shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
   --line: rgba(216, 180, 126, 0.28);
   --ink: #f2eee6;
-  --ink-dim: #b0a999;
+  --ink-dim: #cbc3b4;
   --accent: #d8b47e;
   --accent-bright: #ffd9a8;
   --radius: 26px;
@@ -304,11 +304,13 @@ button { font-family: var(--sans); cursor: pointer; }
   width: min(46rem, 94vw);
   max-height: min(88vh, 60rem);
   overflow-y: auto;
-  background: var(--glass-strong);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018)),
+    var(--glass-strong);
   backdrop-filter: blur(36px) saturate(1.8);
   -webkit-backdrop-filter: blur(36px) saturate(1.8);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow), var(--glass-highlight);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.62), 0 0 0 1px rgba(216, 180, 126, 0.1), var(--glass-highlight);
   border-radius: var(--radius);
   padding: 2.6rem 2.8rem;
   position: relative;
@@ -336,7 +338,7 @@ button { font-family: var(--sans); cursor: pointer; }
   margin: 0 0 1.2rem; line-height: 1.12;
   overflow-wrap: break-word;
 }
-.panel__body { color: var(--ink-dim); line-height: 1.75; font-size: 0.94rem; font-weight: 300; overflow-wrap: break-word; }
+.panel__body { color: #ded7c9; line-height: 1.75; font-size: 0.98rem; font-weight: 400; overflow-wrap: break-word; }
 .panel__image {
   width: 100%; display: block; margin: 1.4rem 0;
   border-radius: var(--radius-sm);
@@ -353,14 +355,33 @@ button { font-family: var(--sans); cursor: pointer; }
 .panel__actions { display: flex; gap: 0.8rem; margin-top: 1.8rem; flex-wrap: wrap; }
 
 /* Skill bars inside modal */
+.skillwall {
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+  border: 1px solid rgba(216, 180, 126, 0.26);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(216, 180, 126, 0.16), rgba(143, 163, 191, 0.08)),
+    rgba(255, 255, 255, 0.035);
+}
 .skillbar { margin-bottom: 1rem; }
+.skillwall .skillbar { margin-bottom: 0; }
 .skillbar__head {
   display: flex; justify-content: space-between;
-  font-size: 0.78rem; letter-spacing: 0.08em; margin-bottom: 0.45rem;
+  gap: 1rem;
+  font-size: 0.8rem; letter-spacing: 0.08em; margin-bottom: 0.45rem;
   color: var(--ink);
 }
-.skillbar__track { height: 4px; border-radius: 4px; background: rgba(255,255,255,0.1); overflow: hidden; }
-.skillbar__fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--accent), var(--accent-bright)); }
+.skillbar__head span:last-child { color: var(--accent-bright); font-weight: 600; }
+.skillbar__track { height: 0.52rem; border-radius: 999px; background: rgba(255,255,255,0.13); overflow: hidden; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06); }
+.skillbar__fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--accent), var(--accent-bright)); box-shadow: 0 0 20px rgba(216, 180, 126, 0.28); }
+.skillbar--panel {
+  padding: 0.72rem 0.78rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: rgba(5, 6, 9, 0.24);
+}
 
 /* Settings rows */
 .setting { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 0.9rem 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
@@ -496,10 +517,36 @@ button { font-family: var(--sans); cursor: pointer; }
 }
 .g2d .btn--secondary:hover { background: rgba(0, 113, 227, 0.16); color: var(--accent); }
 
-/* Skill bars, light theme */
-.g2d .skillbar__head { color: #1d1d1f; }
-.g2d .skillbar__track { background: rgba(0, 0, 0, 0.08); }
-.g2d .skillbar__fill { background: linear-gradient(90deg, #0071e3, #4aa3ff); }
+/* Skill wall, light theme */
+.g2d__skills-wall {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+.g2d__skill-card {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(0, 113, 227, 0.06), rgba(255, 255, 255, 0)),
+    #ffffff;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+  padding: 1rem;
+}
+.g2d__skill-card h3 { margin: 0 0 1rem; font-size: 1.12rem; font-weight: 600; }
+.g2d__skill-kicker {
+  margin: 0 0 0.4rem !important;
+  color: #0071e3 !important;
+  font-size: 0.74rem;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.g2d .skillbar__head { color: #1d1d1f; font-weight: 600; }
+.g2d .skillbar__head span:last-child { color: #0066cc; }
+.g2d .skillbar__track { background: rgba(0, 0, 0, 0.08); box-shadow: none; }
+.g2d .skillbar__fill { background: linear-gradient(90deg, #0071e3, #4aa3ff); box-shadow: none; }
+.skillbar--light { margin-bottom: 0.9rem; }
+.skillbar--light:last-child { margin-bottom: 0; }
 
 /* Timeline entries */
 .g2d__timeline { display: grid; gap: 1rem; }

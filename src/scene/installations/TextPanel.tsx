@@ -22,16 +22,17 @@ export function TextPanel({
   width?: number
   headingSize?: number
   bodySize?: number
-  align?: 'left' | 'center'
+  align?: 'left' | 'center' | 'right'
 }) {
-  const anchorX = align === 'center' ? 'center' : 'left'
+  const anchorX = align
   const x = 0
+  const ruleX = align === 'center' ? 0 : align === 'right' ? -width * 0.14 : width * 0.14
   return (
     <group position={position} rotation-y={rotationY}>
       <Text
         font={FONTS.serif300}
         fontSize={headingSize}
-        color="#ece6da"
+        color="#fff6e8"
         anchorX={anchorX}
         anchorY="top"
         position={[x, 0, 0]}
@@ -40,7 +41,7 @@ export function TextPanel({
       >
         {heading}
       </Text>
-      <mesh position={[align === 'center' ? 0 : width * 0.14, -headingSize - 0.18, 0]}>
+      <mesh position={[ruleX, -headingSize - 0.18, 0]}>
         <planeGeometry args={[align === 'center' ? width * 0.35 : width * 0.28, 0.012]} />
         <meshBasicMaterial color={ACCENT} toneMapped={false} transparent opacity={0.8} />
       </mesh>
@@ -48,7 +49,7 @@ export function TextPanel({
         <Text
           font={FONTS.sans400}
           fontSize={bodySize}
-          color="#b5afa2"
+          color="#e1dacb"
           anchorX={anchorX}
           anchorY="top"
           position={[x, -headingSize - 0.42, 0]}

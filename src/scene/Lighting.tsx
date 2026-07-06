@@ -1,4 +1,3 @@
-import { useMuseum } from '../state/store'
 import { WARM_LIGHT, COOL_FILL } from './materials'
 
 /**
@@ -6,9 +5,6 @@ import { WARM_LIGHT, COOL_FILL } from './materials'
  * this provides the ambient base, the moonlit exterior and per-room fills.
  */
 export function Lighting() {
-  const quality = useMuseum((s) => s.settings.quality)
-  const high = quality === 'high'
-
   return (
     <group>
       {/* Base — bright, airy gallery light. Carries most of the fill so we
@@ -22,7 +18,7 @@ export function Lighting() {
         position={[14, 20, 34]}
         intensity={0.85}
         color="#b9c8e6"
-        castShadow={high}
+        castShadow
         shadow-mapSize={[1024, 1024]}
         shadow-camera-left={-24}
         shadow-camera-right={24}
@@ -40,7 +36,7 @@ export function Lighting() {
         intensity={38}
         distance={14}
         color="#cfd9ec"
-        castShadow={high}
+        castShadow
         shadow-mapSize={[1024, 1024]}
         shadow-bias={-0.0004}
       >

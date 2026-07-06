@@ -109,7 +109,7 @@ export const INTERIOR = { minX: -15, maxX: 15, minZ: -22, maxZ: 16 }
 
 export const SPAWN = { x: 0, y: 0, z: 13.2, yaw: 0 } // yaw 0 faces -z
 
-export const DOORS = [{ id: 'door-gallery', x: 0, z: -8, axis: 'x' as const, width: 4 }]
+export const DOORS = [{ id: 'door-gallery', x: 0, z: -8, axis: 'x' as const, width: 4.4 }]
 
 /** The hidden panel guarding the Archive (opening in the gallery's north wall). */
 export const SECRET_PANEL = { x: 6, z: -16, width: 2.6 }

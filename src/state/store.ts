@@ -13,10 +13,8 @@ export type Modal =
 
 export interface Settings {
   sensitivity: number
-  headBob: boolean
   reducedMotion: boolean
   muted: boolean
-  quality: 'high' | 'low'
 }
 
 export const isTouchDevice =
@@ -70,10 +68,8 @@ export const useMuseum = create<MuseumStore>((set) => ({
   setPointerLocked: (pointerLocked) => set({ pointerLocked }),
   settings: {
     sensitivity: 1,
-    headBob: !prefersReducedMotion,
     reducedMotion: prefersReducedMotion,
     muted: false,
-    quality: isTouchDevice ? 'low' : 'high',
   },
   updateSettings: (partial) => set((s) => ({ settings: { ...s.settings, ...partial } })),
 }))

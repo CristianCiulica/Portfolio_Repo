@@ -147,12 +147,12 @@ export function ProjectScreen({
         </Text>
         <Text
           font={FONTS.sans400}
-          fontSize={0.072}
-          color="#3d2f1c"
+          fontSize={0.082}
+          color="#fff2df"
           anchorX="center"
           anchorY="middle"
-          position={[0, -SCREEN_H / 2 - 0.58, 0.045]}
-          letterSpacing={0.14}
+          position={[0, -SCREEN_H / 2 - 0.59, 0.052]}
+          letterSpacing={0.07}
           maxWidth={SCREEN_W * 0.74}
           textAlign="center"
         >

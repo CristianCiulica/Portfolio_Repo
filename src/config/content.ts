@@ -10,7 +10,7 @@ export const PROFILE = {
   title: 'Computer Science Student @ UNITBV',
   location: 'Brașov, Romania',
   bio: 'I build things that think — game AIs, trading dashboards, compilers of tiny languages. Computer Science student at Transilvania University of Brașov, most at home in C++ and steadily expanding into full-stack and machine learning. This museum is my work, hung on walls.',
-  email: 'cristianciulicajr@gmail.com',
+  email: 'cristianciulica2024@gmail.com',
   resume: asset('Resume/Resume (2).pdf'),
   portrait: asset('Images/Profile/profile.jpg'),
   socials: [
@@ -88,7 +88,7 @@ export const MORE_PROJECTS: Project[] = [
     short: 'Game AI with a built-in hint system',
     description:
       'A digital adaptation of the board game 7 Wonders Duel with an AI opponent and an integrated hint system that evaluates the board and suggests strong moves. Search, evaluation heuristics and game-state design were the heart of this team project.',
-    tech: ['C#', 'Game AI', 'Heuristics', 'WPF'],
+    tech: ['C#', 'Game AI', 'Heuristics'],
     image: asset('Images/projects/7wonders-duel.jpg'),
     github: 'https://github.com/pterodactylstfw/7WondersDuel',
     accent: '#7ec8d8',
@@ -121,7 +121,6 @@ export const SKILLS: SkillGroup[] = [
     skills: [
       { name: 'C++', level: 0.8 },
       { name: 'SQL', level: 0.5 },
-      { name: 'C', level: 0.4 },
       { name: 'Python', level: 0.4 },
       { name: 'Java', level: 0.3 },
       { name: 'C#', level: 0.3 },
@@ -143,7 +142,6 @@ export const SKILLS: SkillGroup[] = [
     blurb: 'Standing on good shoulders.',
     skills: [
       { name: 'NumPy', level: 0.4 },
-      { name: 'WPF', level: 0.3 },
       { name: 'Pandas', level: 0.3 },
       { name: 'Angular', level: 0.15 },
       { name: 'Spring Boot', level: 0.15 },
@@ -191,24 +189,19 @@ export interface TimelineEntry {
 
 export const TIMELINE: TimelineEntry[] = [
   {
-    year: '2023',
-    title: 'Enrolled at UNITBV',
-    detail: 'Computer Science at Transilvania University of Brașov. C, C++ and the fundamentals.',
-  },
-  {
     year: '2024',
-    title: 'Algorithms & Systems',
-    detail: 'Coursera C/C++ specialization, Google AI Essentials, first AI projects — minimax, game trees.',
+    title: 'Enrolled at UNITBV',
+    detail: 'Started Computer Science at Transilvania University of Brasov.',
   },
   {
     year: '2025',
-    title: 'Full-stack & DevOps',
-    detail: 'Shipped a cloud-deployed trading dashboard on AWS. Docker, CI/CD, Spring Boot in production.',
+    title: 'Learned Algorithms and Data Structures',
+    detail: 'Built the base: algorithms, data structures and C++.',
   },
   {
     year: '2026',
-    title: 'Machine Learning',
-    detail: 'Python ML certification. Building toward intelligent systems — and this museum.',
+    title: 'Learned Frontend and AI',
+    detail: 'Expanded into frontend work, AI projects and machine learning.',
   },
 ]
 

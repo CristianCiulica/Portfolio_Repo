@@ -82,7 +82,7 @@ export function CertFrame({
       <Text
         font={FONTS.sans400}
         fontSize={0.075}
-        color="#d9d3c6"
+        color="#fff2df"
         anchorX="center"
         anchorY="top"
         position={[0, -H / 2 - 0.16, 0.04]}
@@ -95,7 +95,7 @@ export function CertFrame({
       <Text
         font={FONTS.sans400}
         fontSize={0.058}
-        color={ACCENT_DIM}
+        color="#e4c48c"
         anchorX="center"
         anchorY="top"
         position={[0, -H / 2 - 0.44, 0.04]}

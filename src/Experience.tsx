@@ -5,7 +5,7 @@ import { Museum } from './scene/Museum'
 import { Effects } from './scene/Effects'
 import { PlayerController } from './systems/player/PlayerController'
 import { CinematicRig } from './systems/CinematicRig'
-import { useMuseum, isTouchDevice } from './state/store'
+import { isTouchDevice } from './state/store'
 
 /** Dev-only: exposes the R3F state so tooling can step frames in hidden tabs. */
 function DevBridge() {
@@ -21,17 +21,15 @@ function DevBridge() {
 }
 
 export function Experience() {
-  const quality = useMuseum((s) => s.settings.quality)
-  const updateSettings = useMuseum((s) => s.updateSettings)
   // Retina panels report devicePixelRatio 2 → rendering at 2 quadruples the
-  // pixel count and pins the GPU. Cap at 1.5 (high) so quality stays usable,
-  // and let the PerformanceMonitor / AdaptiveDpr drop further only if needed.
+  // pixel count and pins the GPU. Cap at 1.5, and let AdaptiveDpr drop further
+  // only if needed.
   const maxDpr = isTouchDevice ? 1.25 : 1.5
   const [dpr, setDpr] = useState<number>(Math.min(maxDpr, window.devicePixelRatio))
 
   return (
     <Canvas
-      shadows={quality === 'high'}
+      shadows
       dpr={dpr}
       gl={{ antialias: false, powerPreference: 'high-performance', stencil: false, depth: true, toneMappingExposure: 1.25 }}
       camera={{ fov: 70, near: 0.1, far: 160, position: [4.2, 2.7, 32.5] }}
@@ -42,7 +40,6 @@ export function Experience() {
       <PerformanceMonitor
         onDecline={() => {
           setDpr((d) => Math.max(1, d - 0.25))
-          updateSettings({ quality: 'low' })
         }}
         onIncline={() => setDpr(Math.min(maxDpr, window.devicePixelRatio))}
       >

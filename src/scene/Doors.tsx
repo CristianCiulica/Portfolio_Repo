@@ -16,6 +16,7 @@ function SlidingDoor({ id, x, z, width }: { id: string; x: number; z: number; wi
   const wasOpen = useRef(false)
   const camera = useThree((s) => s.camera)
   const half = width / 2
+  const panelH = DOOR_H - 0.08
 
   useEffect(() => {
     const cid = addCollider(x - half, x + half, z - WALL_T / 2, z + WALL_T / 2, `col-${id}`)
@@ -40,15 +41,15 @@ function SlidingDoor({ id, x, z, width }: { id: string; x: number; z: number; wi
 
   return (
     <group>
-      <mesh ref={left} position={[x - half / 2, DOOR_H / 2, z]} material={materials.blackMetal} castShadow>
-        <boxGeometry args={[half, DOOR_H, 0.12]} />
+      <mesh ref={left} position={[x - half / 2, panelH / 2, z]} material={materials.blackMetal} castShadow>
+        <boxGeometry args={[half, panelH, WALL_T + 0.04]} />
       </mesh>
-      <mesh ref={right} position={[x + half / 2, DOOR_H / 2, z]} material={materials.blackMetal} castShadow>
-        <boxGeometry args={[half, DOOR_H, 0.12]} />
+      <mesh ref={right} position={[x + half / 2, panelH / 2, z]} material={materials.blackMetal} castShadow>
+        <boxGeometry args={[half, panelH, WALL_T + 0.04]} />
       </mesh>
       {/* Brass door track */}
-      <mesh position={[x, DOOR_H + 0.06, z]} material={materials.brass}>
-        <boxGeometry args={[width + 0.4, 0.12, 0.2]} />
+      <mesh position={[x, DOOR_H - 0.07, z]} material={materials.brass}>
+        <boxGeometry args={[width + 0.36, 0.07, WALL_T * 0.72]} />
       </mesh>
     </group>
   )

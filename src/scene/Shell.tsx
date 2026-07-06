@@ -3,14 +3,12 @@ import { MeshReflectorMaterial } from '@react-three/drei'
 import { buildSegments, INTERIOR, WALL_T } from './layout'
 import { getMaterials } from './materials'
 import { addCollider, removeCollider } from '../systems/physics/colliders'
-import { useMuseum } from '../state/store'
 
 /**
  * The building itself: walls (from the floor plan), floor, ceiling, skylight.
  * Wall meshes and wall colliders derive from the same data — no drift.
  */
 export function Shell() {
-  const quality = useMuseum((s) => s.settings.quality)
   const segments = useMemo(() => buildSegments(), [])
   const materials = useMemo(() => getMaterials(), [])
 
@@ -42,23 +40,19 @@ export function Shell() {
       {/* Interior floor */}
       <mesh rotation-x={-Math.PI / 2} position={[0, 0, (INTERIOR.minZ + INTERIOR.maxZ) / 2]} receiveShadow>
         <planeGeometry args={[INTERIOR.maxX - INTERIOR.minX, INTERIOR.maxZ - INTERIOR.minZ]} />
-        {quality === 'high' ? (
-          <MeshReflectorMaterial
-            resolution={256}
-            mirror={0.35}
-            mixBlur={2.5}
-            mixStrength={1.1}
-            blur={[140, 60]}
-            depthScale={0.5}
-            minDepthThreshold={0.4}
-            maxDepthThreshold={1.4}
-            color="#33363b"
-            roughness={0.65}
-            metalness={0.35}
-          />
-        ) : (
-          <meshStandardMaterial color="#383b40" roughness={0.4} metalness={0.4} />
-        )}
+        <MeshReflectorMaterial
+          resolution={256}
+          mirror={0.35}
+          mixBlur={2.5}
+          mixStrength={1.1}
+          blur={[140, 60]}
+          depthScale={0.5}
+          minDepthThreshold={0.4}
+          maxDepthThreshold={1.4}
+          color="#33363b"
+          roughness={0.65}
+          metalness={0.35}
+        />
       </mesh>
 
       {/* Ceiling slabs (hole left over the lobby skylight) */}

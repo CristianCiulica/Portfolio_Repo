@@ -40,10 +40,8 @@ export function PlayerController() {
   const modal = useMuseum((s) => s.modal)
 
   const target = useRef({ yaw: playerState.yaw, pitch: playerState.pitch })
-  const bobPhase = useRef(0)
-  const bobAmp = useRef(0)
+  const stepPhase = useRef(0)
   const lastStepSign = useRef(1)
-  const landedDip = useRef(0)
   const focusedId = useRef<string | null>(null)
   const roomRef = useRef('')
 
@@ -207,7 +205,6 @@ export function PlayerController() {
     }
     p.y += p.vy * dt
     if (p.y <= 0) {
-      if (!p.grounded && p.vy < -3) landedDip.current = Math.min(0.14, -p.vy * 0.025)
       p.y = 0
       p.vy = 0
       p.grounded = true
@@ -219,7 +216,7 @@ export function PlayerController() {
     resolveCircle(p, PLAYER_RADIUS)
     p.speed = Math.hypot(p.vx, p.vz)
 
-    // Head bob + footsteps
+    // Footsteps
     const store = useMuseum.getState()
     const room = roomAt(p.x, p.z)
     if (room !== roomRef.current) {
@@ -227,11 +224,9 @@ export function PlayerController() {
       store.setCurrentRoom(room)
     }
 
-    const speedT = Math.min(1, p.speed / WALK_SPEED)
-    bobAmp.current += (speedT * (p.grounded ? 1 : 0) - bobAmp.current) * Math.min(1, 8 * dt)
     if (p.speed > 0.3 && p.grounded) {
-      bobPhase.current += dt * (6 + p.speed * 1.6)
-      const s = Math.sin(bobPhase.current)
+      stepPhase.current += dt * (6 + p.speed * 1.6)
+      const s = Math.sin(stepPhase.current)
       const sign = Math.sign(s)
       if (sign !== lastStepSign.current && sign !== 0) {
         lastStepSign.current = sign
@@ -240,20 +235,10 @@ export function PlayerController() {
         }
       }
     }
-    landedDip.current *= Math.exp(-6 * dt)
 
-    const bobOn = settings.headBob && !settings.reducedMotion
-    const bobY = bobOn ? Math.sin(bobPhase.current) * 0.045 * bobAmp.current : 0
-    const bobX = bobOn ? Math.cos(bobPhase.current * 0.5) * 0.025 * bobAmp.current : 0
-    const idleSway = bobOn ? Math.sin(performance.now() * 0.0006) * 0.012 : 0
-
-    camera.position.set(
-      p.x + cosY * bobX,
-      EYE_HEIGHT + p.y + bobY - landedDip.current + idleSway,
-      p.z - sinY * bobX,
-    )
+    camera.position.set(p.x, EYE_HEIGHT + p.y, p.z)
     camera.rotation.order = 'YXZ'
-    camera.rotation.set(p.pitch, p.yaw, bobOn ? Math.sin(bobPhase.current * 0.5) * 0.006 * bobAmp.current : 0)
+    camera.rotation.set(p.pitch, p.yaw, 0)
 
     // Focused interactable (only refresh store when it changes)
     if (active) {

@@ -55,14 +55,9 @@ export function PauseMenu() {
               />
             </div>
             <Toggle
-              label="Head bob"
-              on={settings.headBob}
-              onChange={(v) => updateSettings({ headBob: v })}
-            />
-            <Toggle
               label="Reduced motion"
               on={settings.reducedMotion}
-              onChange={(v) => updateSettings({ reducedMotion: v, headBob: v ? false : settings.headBob })}
+              onChange={(v) => updateSettings({ reducedMotion: v })}
             />
             <Toggle
               label="Sound"
@@ -71,11 +66,6 @@ export function PauseMenu() {
                 setMuted(!v)
                 updateSettings({ muted: !v })
               }}
-            />
-            <Toggle
-              label="High quality"
-              on={settings.quality === 'high'}
-              onChange={(v) => updateSettings({ quality: v ? 'high' : 'low' })}
             />
 
             <div className="panel__actions">

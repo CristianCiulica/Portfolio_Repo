@@ -85,22 +85,25 @@ export function Gallery2D() {
 
         <section aria-labelledby="g2d-skills">
           <h2 id="g2d-skills">Skills</h2>
-          {SKILLS.map((g) => (
-            <div key={g.id} style={{ marginBottom: '1.8rem' }}>
-              <h3 style={{ fontWeight: 600, margin: '0 0 0.7rem' }}>{g.label}</h3>
-              {g.skills.map((s) => (
-                <div className="skillbar" key={s.name}>
-                  <div className="skillbar__head">
-                    <span>{s.name}</span>
-                    <span style={{ color: 'var(--ink-dim)' }}>{Math.round(s.level * 100)}%</span>
+          <div className="g2d__skills-wall">
+            {SKILLS.map((g) => (
+              <article key={g.id} className="g2d__skill-card">
+                <p className="g2d__skill-kicker">{g.blurb}</p>
+                <h3>{g.label}</h3>
+                {g.skills.map((s) => (
+                  <div className="skillbar skillbar--light" key={s.name}>
+                    <div className="skillbar__head">
+                      <span>{s.name}</span>
+                      <span>{Math.round(s.level * 100)}%</span>
+                    </div>
+                    <div className="skillbar__track">
+                      <div className="skillbar__fill" style={{ width: `${s.level * 100}%` }} />
+                    </div>
                   </div>
-                  <div className="skillbar__track">
-                    <div className="skillbar__fill" style={{ width: `${s.level * 100}%` }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          ))}
+                ))}
+              </article>
+            ))}
+          </div>
         </section>
 
         <section aria-labelledby="g2d-journey">

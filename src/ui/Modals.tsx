@@ -116,22 +116,24 @@ function SkillsPanel({ id }: { id: string }) {
       <p className="panel__body" style={{ marginBottom: '1.6rem' }}>
         {g.blurb}
       </p>
-      {g.skills.map((s, i) => (
-        <div className="skillbar" key={s.name}>
-          <div className="skillbar__head">
-            <span>{s.name}</span>
-            <span style={{ color: 'var(--ink-dim)' }}>{Math.round(s.level * 100)}%</span>
+      <div className="skillwall">
+        {g.skills.map((s, i) => (
+          <div className="skillbar skillbar--panel" key={s.name}>
+            <div className="skillbar__head">
+              <span>{s.name}</span>
+              <span>{Math.round(s.level * 100)}%</span>
+            </div>
+            <div className="skillbar__track">
+              <motion.div
+                className="skillbar__fill"
+                initial={{ width: 0 }}
+                animate={{ width: `${s.level * 100}%` }}
+                transition={{ delay: 0.15 + i * 0.07, duration: 0.7, ease: 'easeOut' }}
+              />
+            </div>
           </div>
-          <div className="skillbar__track">
-            <motion.div
-              className="skillbar__fill"
-              initial={{ width: 0 }}
-              animate={{ width: `${s.level * 100}%` }}
-              transition={{ delay: 0.15 + i * 0.07, duration: 0.7, ease: 'easeOut' }}
-            />
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </>
   )
 }
