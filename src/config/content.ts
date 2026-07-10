@@ -120,7 +120,6 @@ export const SKILLS: SkillGroup[] = [
     blurb: 'Languages I think in.',
     skills: [
       { name: 'C++', level: 0.8 },
-      { name: 'SQL', level: 0.5 },
       { name: 'Python', level: 0.4 },
       { name: 'Java', level: 0.3 },
       { name: 'C#', level: 0.3 },

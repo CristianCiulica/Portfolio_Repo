@@ -44,18 +44,16 @@ export function Lighting() {
         <object3D attach="target" position={[0, -1, 0]} />
       </spotLight>
 
-      {/* Warm per-room ceiling fills — trimmed to one strong light per zone.
-          The lobby/about/contact also get warmth from the interactive floor
-          lamps, so a single wide fill each is plenty. */}
-      <pointLight position={[0, 4.4, 9]} intensity={13} distance={15} color={WARM_LIGHT} />
-      <pointLight position={[-10, 4.4, 8]} intensity={11} distance={12} color={WARM_LIGHT} />
-      <pointLight position={[10, 4.4, 8]} intensity={11} distance={12} color={WARM_LIGHT} />
-      <pointLight position={[-7, 4.6, -2]} intensity={15} distance={17} color={WARM_LIGHT} />
-      <pointLight position={[7, 4.6, -2]} intensity={15} distance={17} color={WARM_LIGHT} />
-      <pointLight position={[0, 4.4, -12]} intensity={14} distance={17} color={WARM_LIGHT} />
-      <pointLight position={[6, 4.2, -19]} intensity={6} distance={9} color={WARM_LIGHT} />
+      {/* Soft per-room ambient base. We rely more on targeted spots now. */}
+      <pointLight position={[0, 4.4, 9]} intensity={3} distance={15} color={WARM_LIGHT} />
+      <pointLight position={[-10, 4.4, 8]} intensity={2.5} distance={12} color={WARM_LIGHT} />
+      <pointLight position={[10, 4.4, 8]} intensity={2.5} distance={12} color={WARM_LIGHT} />
+      <pointLight position={[-7, 4.6, -2]} intensity={3.5} distance={17} color={WARM_LIGHT} />
+      <pointLight position={[7, 4.6, -2]} intensity={3.5} distance={17} color={WARM_LIGHT} />
+      <pointLight position={[0, 4.4, -12]} intensity={3} distance={17} color={WARM_LIGHT} />
+      <pointLight position={[6, 4.2, -19]} intensity={1.5} distance={9} color={WARM_LIGHT} />
       {/* Cool fill so shadows never go pure black */}
-      <pointLight position={[0, 3.5, -2]} intensity={4} distance={28} color={COOL_FILL} />
+      <pointLight position={[0, 3.5, -2]} intensity={1.5} distance={28} color={COOL_FILL} />
     </group>
   )
 }

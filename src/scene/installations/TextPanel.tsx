@@ -32,7 +32,7 @@ export function TextPanel({
       <Text
         font={FONTS.serif300}
         fontSize={headingSize}
-        color="#fff6e8"
+        color="#000000"
         anchorX={anchorX}
         anchorY="top"
         position={[x, 0, 0]}
@@ -49,7 +49,7 @@ export function TextPanel({
         <Text
           font={FONTS.sans400}
           fontSize={bodySize}
-          color="#e1dacb"
+          color="#000000"
           anchorX={anchorX}
           anchorY="top"
           position={[x, -headingSize - 0.42, 0]}

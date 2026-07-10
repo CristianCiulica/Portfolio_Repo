@@ -60,6 +60,8 @@ let cache: {
   blackMetal: THREE.MeshStandardMaterial
   brass: THREE.MeshStandardMaterial
   darkFloor: THREE.MeshStandardMaterial
+  whiteStone: THREE.MeshStandardMaterial
+  darkWood: THREE.MeshStandardMaterial
 } | null = null
 
 export function getMaterials() {
@@ -73,6 +75,10 @@ export function getMaterials() {
 
   const plasterCanvas = valueNoiseCanvas(512, 228, 4, 3)
   const plasterMap = makeTexture(plasterCanvas, 2)
+  const plasterBump = new THREE.CanvasTexture(plasterCanvas)
+  plasterBump.wrapS = plasterBump.wrapT = THREE.RepeatWrapping
+  plasterBump.repeat.set(2, 2)
+
 
   cache = {
     concrete: new THREE.MeshStandardMaterial({
@@ -83,8 +89,11 @@ export function getMaterials() {
       metalness: 0.02,
     }),
     plaster: new THREE.MeshStandardMaterial({
+      color: '#F5F2EE',
       map: plasterMap,
-      roughness: 0.9,
+      bumpMap: plasterBump,
+      bumpScale: 0.1,
+      roughness: 0.85,
       metalness: 0,
     }),
     blackMetal: new THREE.MeshStandardMaterial({
@@ -101,6 +110,18 @@ export function getMaterials() {
       color: '#3d4046',
       roughness: 0.3,
       metalness: 0.45,
+    }),
+    whiteStone: new THREE.MeshStandardMaterial({
+      color: '#f9f9f9',
+      bumpMap: concreteBump,
+      bumpScale: 0.05,
+      roughness: 0.2,
+      metalness: 0.1,
+    }),
+    darkWood: new THREE.MeshStandardMaterial({
+      color: '#2a1a11',
+      roughness: 0.8,
+      metalness: 0.1,
     }),
   }
   return cache

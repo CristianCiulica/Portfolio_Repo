@@ -25,17 +25,30 @@ export function Shell() {
   return (
     <group>
       {/* Walls */}
-      {segments.map((s, i) => (
-        <mesh
-          key={i}
-          position={[s.cx, s.cy, s.cz]}
-          material={materials.plaster}
-          castShadow
-          receiveShadow
-        >
-          <boxGeometry args={[s.sx, s.sy, s.sz]} />
-        </mesh>
-      ))}
+      {segments.map((s, i) => {
+        const isX = s.sx > s.sz
+        return (
+          <group key={i}>
+            {/* Main Wall */}
+            <mesh position={[s.cx, s.cy, s.cz]} material={materials.plaster}>
+              <boxGeometry args={[s.sx, s.sy, s.sz]} />
+            </mesh>
+            
+            {/* Plinth / Baseboard (8cm tall, slightly thicker than wall) */}
+            <mesh position={[s.cx, 0.04, s.cz]} material={materials.concrete}>
+              <boxGeometry args={[isX ? s.sx : s.sx + 0.06, 0.08, isX ? s.sz + 0.06 : s.sz]} />
+            </mesh>
+
+            {/* Ceiling LED Edge Profile (only if wall reaches ceiling) */}
+            {s.cy + s.sy / 2 > 5.1 && (
+              <mesh position={[s.cx, s.cy + s.sy / 2 - 0.02, s.cz]}>
+                <boxGeometry args={[isX ? s.sx : s.sx + 0.08, 0.04, isX ? s.sz + 0.08 : s.sz]} />
+                <meshStandardMaterial color="#ffffff" emissive="#ffddaa" emissiveIntensity={2} />
+              </mesh>
+            )}
+          </group>
+        )
+      })}
 
       {/* Interior floor */}
       <mesh rotation-x={-Math.PI / 2} position={[0, 0, (INTERIOR.minZ + INTERIOR.maxZ) / 2]} receiveShadow>
@@ -49,9 +62,9 @@ export function Shell() {
           depthScale={0.5}
           minDepthThreshold={0.4}
           maxDepthThreshold={1.4}
-          color="#33363b"
-          roughness={0.65}
-          metalness={0.35}
+          color="#d4d1cc"
+          roughness={0.45}
+          metalness={0.25}
         />
       </mesh>
 
@@ -86,7 +99,7 @@ function CeilingWithSkylight() {
       {slabs.map(([x0, x1, z0, z1], i) => (
         <mesh key={i} position={[(x0 + x1) / 2, CEIL_Y + WALL_T / 2, (z0 + z1) / 2]}>
           <boxGeometry args={[x1 - x0, WALL_T, z1 - z0]} />
-          <primitive object={materials.concrete} attach="material" />
+          <primitive object={materials.darkWood || materials.concrete} attach="material" />
         </mesh>
       ))}
       {/* Skylight glass */}

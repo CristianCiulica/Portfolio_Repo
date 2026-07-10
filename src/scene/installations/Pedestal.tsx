@@ -19,16 +19,18 @@ export function Pedestal({
   onInteract,
   exhibit = 'icosahedron',
   accent = ACCENT,
+  rotationY = 0,
 }: {
   position: [number, number, number]
   label: string
   prompt: string
   onInteract: () => void
-  exhibit?: 'icosahedron' | 'torusKnot' | 'octahedron'
+  exhibit?: 'icosahedron' | 'torusKnot' | 'octahedron' | 'cv' | 'book'
   accent?: string
+  rotationY?: number
 }) {
   const materials = useMemo(() => getMaterials(), [])
-  const item = useRef<THREE.Mesh>(null!)
+  const item = useRef<THREE.Group>(null!)
   const proximity = useRef(0)
   const light = useRef<THREE.PointLight>(null!)
 
@@ -67,10 +69,15 @@ export function Pedestal({
   })
 
   return (
-    <group position={position}>
+    <group position={position} rotation-y={rotationY}>
       {/* Plinth */}
-      <mesh material={materials.blackMetal} castShadow position={[0, 0.55, 0]}>
+      <mesh material={materials.whiteStone} position={[0, 0.55, 0]}>
         <boxGeometry args={[0.7, 1.1, 0.7]} />
+      </mesh>
+      {/* Under-glow ring (slightly wider than plinth, floating 1mm above floor to prevent z-fighting) */}
+      <mesh position={[0, 0.021, 0]}>
+        <boxGeometry args={[0.74, 0.04, 0.74]} />
+        <meshStandardMaterial color="#ffffff" emissive="#ffddaa" emissiveIntensity={3} />
       </mesh>
       <mesh material={materials.brass} position={[0, 1.11, 0]}>
         <boxGeometry args={[0.74, 0.03, 0.74]} />
@@ -88,22 +95,87 @@ export function Pedestal({
         />
       </mesh>
       {/* Floating exhibit */}
-      <mesh ref={item} position={[0, 1.42, 0]}>
-        {exhibit === 'torusKnot' ? (
-          <torusKnotGeometry args={[0.13, 0.045, 96, 16]} />
-        ) : exhibit === 'octahedron' ? (
-          <octahedronGeometry args={[0.19, 0]} />
+      <group ref={item} position={[0, 1.42, 0]}>
+        {exhibit === 'cv' ? (
+          <group>
+            {/* The paper */}
+            <mesh castShadow>
+              <boxGeometry args={[0.21, 0.297, 0.002]} />
+              <meshStandardMaterial color="#ffffff" roughness={0.9} />
+            </mesh>
+            {/* Fake CV lines */}
+            <mesh position={[0, 0.08, 0.0015]}>
+              <planeGeometry args={[0.15, 0.012]} />
+              <meshBasicMaterial color="#333333" />
+            </mesh>
+            <mesh position={[-0.02, 0.04, 0.0015]}>
+              <planeGeometry args={[0.11, 0.006]} />
+              <meshBasicMaterial color="#666666" />
+            </mesh>
+            <mesh position={[0, 0, 0.0015]}>
+              <planeGeometry args={[0.15, 0.006]} />
+              <meshBasicMaterial color="#999999" />
+            </mesh>
+            <mesh position={[0, -0.03, 0.0015]}>
+              <planeGeometry args={[0.15, 0.006]} />
+              <meshBasicMaterial color="#999999" />
+            </mesh>
+            <mesh position={[0, -0.06, 0.0015]}>
+              <planeGeometry args={[0.15, 0.006]} />
+              <meshBasicMaterial color="#999999" />
+            </mesh>
+          </group>
+        ) : exhibit === 'book' ? (
+          <group position={[0, -0.05, 0]} rotation-x={0.1} rotation-z={0.05}>
+            {/* Left page */}
+            <group rotation-y={0.6}>
+              <mesh position={[-0.075, 0, 0]} castShadow>
+                <boxGeometry args={[0.15, 0.22, 0.015]} />
+                <meshStandardMaterial color="#f0e6d2" roughness={0.9} />
+              </mesh>
+              {/* Left cover */}
+              <mesh position={[-0.075, 0, -0.008]} castShadow>
+                <boxGeometry args={[0.152, 0.23, 0.002]} />
+                <meshStandardMaterial color="#24452e" roughness={0.8} />
+              </mesh>
+            </group>
+            {/* Right page */}
+            <group rotation-y={-0.6}>
+              <mesh position={[0.075, 0, 0]} castShadow>
+                <boxGeometry args={[0.15, 0.22, 0.015]} />
+                <meshStandardMaterial color="#f0e6d2" roughness={0.9} />
+              </mesh>
+              {/* Right cover */}
+              <mesh position={[0.075, 0, -0.008]} castShadow>
+                <boxGeometry args={[0.152, 0.23, 0.002]} />
+                <meshStandardMaterial color="#24452e" roughness={0.8} />
+              </mesh>
+            </group>
+            {/* Cover binding */}
+            <mesh position={[0, 0, -0.01]} castShadow>
+              <boxGeometry args={[0.03, 0.23, 0.015]} />
+              <meshStandardMaterial color="#24452e" roughness={0.7} />
+            </mesh>
+          </group>
         ) : (
-          <icosahedronGeometry args={[0.19, 0]} />
+          <mesh castShadow>
+            {exhibit === 'torusKnot' ? (
+              <torusKnotGeometry args={[0.13, 0.045, 96, 16]} />
+            ) : exhibit === 'octahedron' ? (
+              <octahedronGeometry args={[0.19, 0]} />
+            ) : (
+              <icosahedronGeometry args={[0.19, 0]} />
+            )}
+            <meshStandardMaterial
+              color={accent}
+              emissive={accent}
+              emissiveIntensity={0.28}
+              roughness={0.25}
+              metalness={0.7}
+            />
+          </mesh>
         )}
-        <meshStandardMaterial
-          color={accent}
-          emissive={accent}
-          emissiveIntensity={0.28}
-          roughness={0.25}
-          metalness={0.7}
-        />
-      </mesh>
+      </group>
       <pointLight ref={light} position={[0, 1.5, 0]} intensity={0.9} distance={3.5} color={accent} />
       <Text
         font={FONTS.sans400}

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
 import { useTexture } from '@react-three/drei'
@@ -28,8 +28,8 @@ export function CertFrame({
   const materials = useMemo(() => getMaterials(), [])
   const texture = useTexture(cert.image)
   const group = useRef<THREE.Group>(null!)
+  const [straightened, setStraightened] = useState(false)
   const tilt = useRef(crooked ? 0.085 : 0)
-  const straightened = useRef(false)
 
   useEffect(() => {
     texture.colorSpace = THREE.SRGBColorSpace
@@ -42,11 +42,11 @@ export function CertFrame({
       y: position[1],
       z: position[2],
       radius: 2.6,
-      prompt: crooked && !straightened.current ? 'Straighten the frame' : `View “${cert.title}”`,
+      prompt: crooked && !straightened ? 'Straighten the frame' : `View “${cert.title}”`,
       onInteract: () => {
         const s = useMuseum.getState()
-        if (crooked && !straightened.current && !s.secretUnlocked) {
-          straightened.current = true
+        if (crooked && !straightened && !s.secretUnlocked) {
+          setStraightened(true)
           if (!s.settings.muted) playHover()
           s.unlockSecret()
           s.setToast('Somewhere, stone slides against stone… (look along the far wall)')
@@ -57,10 +57,10 @@ export function CertFrame({
         }
       },
     })
-  }, [cert.id, crooked])
+  }, [cert.id, crooked, straightened, cert.title, position])
 
   useFrame((_, dt) => {
-    const target = straightened.current || !crooked ? 0 : 0.085
+    const target = straightened || !crooked ? 0 : 0.085
     tilt.current += (target - tilt.current) * Math.min(1, 2 * dt)
     if (group.current) group.current.rotation.z = tilt.current
   })

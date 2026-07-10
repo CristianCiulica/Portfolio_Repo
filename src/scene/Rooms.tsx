@@ -192,26 +192,28 @@ export function Lobby() {
 }
 
 // ── About wing ─────────────────────────────────────────────────────
-function PortraitFrame() {
-  const materials = useMemo(() => getMaterials(), [])
-  const texture = useTexture(PROFILE.portrait)
+function WallpaperWall({
+  position,
+  rotationY,
+}: {
+  position: [number, number, number]
+  rotationY: number
+}) {
+  const texture = useTexture('/Portfolio_Repo/Images/wallpaper.jpg')
   useEffect(() => {
     texture.colorSpace = THREE.SRGBColorSpace
+    texture.wrapS = THREE.RepeatWrapping
+    texture.wrapT = THREE.RepeatWrapping
+    texture.repeat.set(3, 2)
   }, [texture])
   return (
-    <group position={[-13.73, 2.05, 8]} rotation-y={Math.PI / 2}>
-      <mesh material={materials.brass} position={[0, 0, -0.05]} castShadow>
-        <boxGeometry args={[2.15, 2.7, 0.1]} />
+    <group position={position} rotation-y={rotationY}>
+      <mesh position={[0, 0, 0.01]}>
+        <planeGeometry args={[8, 5.2]} />
+        <meshStandardMaterial map={texture} roughness={0.8} />
       </mesh>
-      <mesh position={[0, 0, 0.02]}>
-        <planeGeometry args={[1.95, 2.5]} />
-        <meshStandardMaterial map={texture} roughness={0.5} />
-      </mesh>
-      <Text font={FONTS.sans400} fontSize={0.075} color={ACCENT_DIM} anchorX="center" position={[0, -1.55, 0.04]} letterSpacing={0.16}>
-        {`THE DEVELOPER, ${PROFILE.location.toUpperCase()}`}
-      </Text>
-      <spotLight position={[0, 2, 1.8]} angle={0.6} penumbra={0.8} intensity={24} distance={8} color="#ffe3bd" decay={1.6}>
-        <object3D attach="target" position={[0, -2, -1.8]} />
+      <spotLight position={[0, 4, 3]} angle={1.2} penumbra={1} intensity={15} distance={10} color="#ffd4a3">
+        <object3D attach="target" position={[0, 0, 0]} />
       </spotLight>
     </group>
   )
@@ -220,53 +222,65 @@ function PortraitFrame() {
 export function AboutRoom() {
   return (
     <group>
-      <PortraitFrame />
+      <WallpaperWall position={[-13.85, 2.6, 8]} rotationY={Math.PI / 2} />
+      
+      {/* About text on the right wall */}
       <TextPanel
-        position={[-13, 3.35, 4.26]}
+        position={[-9.8, 2.8, 4.26]}
+        align="center"
         heading="About"
         body={'Computer Science student building practical systems: game AI, dashboards, compilers and this 3D portfolio museum.'}
-        width={5.4}
-        headingSize={0.42}
+        width={5}
+        headingSize={0.3}
         bodySize={0.12}
       />
-      <TextPanel
-        position={[-13, 3.0, 11.74]}
+      {/* Targeted spot light for the About text on the right wall */}
+      <spotLight position={[-9.8, 4.5, 7]} angle={0.8} penumbra={0.7} intensity={25} distance={12} color="#fff1e0">
+        <object3D attach="target" position={[-9.8, 2.8, 4.26]} />
+      </spotLight>
+
+      {/* WallCards on the Left Wall */}
+      <WallCard
+        position={[-8.2, 2.4, 11.74]}
         rotationY={Math.PI}
-        heading="Current Focus"
-        body={'C++ fundamentals, AI projects, frontend polish and software engineering habits.'}
-        width={5.4}
-        headingSize={0.34}
-        bodySize={0.11}
-      />
-      <WallCard
-        position={[-12.2, 1.62, 4.32]}
-        title="SYSTEMS"
-        body="C++ foundations, data structures and careful problem solving."
-        width={1.55}
-      />
-      <WallCard
-        position={[-10, 1.62, 4.32]}
         title="AI"
         body="Game trees, heuristics, machine learning and image-based experiments."
         accent="#8fc7ff"
-        width={1.55}
+        width={1.7}
       />
       <WallCard
-        position={[-7.8, 1.62, 4.32]}
-        title="PRODUCT"
+        position={[-11.2, 2.4, 11.74]}
+        rotationY={Math.PI}
+        title="SYSTEMS"
+        body="C++ foundations, data structures and careful problem solving."
+        width={1.7}
+      />
+      <WallCard
+        position={[-8.2, 0.8, 11.74]}
+        rotationY={Math.PI}
+        title="PROJECTS"
         body="Frontend interfaces, dashboards and projects that explain themselves."
         accent="#9ee6b8"
-        width={1.55}
+        width={1.7}
       />
+      <WallCard
+        position={[-11.2, 0.8, 11.74]}
+        rotationY={Math.PI}
+        title="EXPERIENCE"
+        body="Computer Science student building practical systems and architectures."
+        width={1.7}
+      />
+
+      {/* Center exhibit */}
       <Pedestal
-        position={[-10, 0, 9.8]}
+        position={[-10, 0, 8]}
         label="Curriculum Vitae"
         prompt="Take a copy of the CV"
-        exhibit="octahedron"
+        exhibit="cv"
         onInteract={() => window.open(PROFILE.resume, '_blank', 'noopener')}
       />
+      
       <FloorLamp position={[-7, 0, 5.6]} />
-      <pointLight position={[-10.5, 3.5, 8]} intensity={5} distance={8} color={ACCENT} />
     </group>
   )
 }
@@ -584,20 +598,9 @@ export function ContactRoom() {
       <FloorLamp position={[7.2, 0, 5.55]} />
       <FloorLamp position={[12.8, 0, 5.55]} />
       <pointLight position={[10, 3.7, 8]} intensity={6} distance={9} color={ACCENT} />
-      <Text
-        font={FONTS.sans400}
-        fontSize={0.12}
-        color="#f0e7d8"
-        anchorX="center"
-        position={[13.76, 2.3, 8]}
-        rotation-y={-Math.PI / 2}
-        lineHeight={2.2}
-        letterSpacing={0.08}
-        maxWidth={6}
-        textAlign="center"
-      >
-        {PROFILE.socials.map((s) => s.label.toUpperCase()).join('\n')}
-      </Text>
+      
+      {/* Front wall as you enter (East wing back wall) */}
+      <WallpaperWall position={[13.85, 2.6, 8]} rotationY={-Math.PI / 2} />
     </group>
   )
 }
