@@ -71,7 +71,7 @@ export function Pedestal({
   return (
     <group position={position} rotation-y={rotationY}>
       {/* Plinth */}
-      <mesh material={materials.whiteStone} position={[0, 0.55, 0]}>
+      <mesh material={materials.whiteStone} position={[0, 0.545, 0]}>
         <boxGeometry args={[0.7, 1.1, 0.7]} />
       </mesh>
       {/* Under-glow ring (slightly wider than plinth, floating 1mm above floor to prevent z-fighting) */}

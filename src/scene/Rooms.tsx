@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react'
 import * as THREE from 'three'
-import { useTexture } from '@react-three/drei'
+import { useTexture, RoundedBox } from '@react-three/drei'
 import { Label as Text } from './installations/Label'
 import { PROFILE, PROJECTS, MORE_PROJECTS, SKILLS, CERTIFICATES, TIMELINE, FONTS, SECRET } from '../config/content'
 import { getMaterials, ACCENT, ACCENT_DIM } from './materials'
@@ -119,24 +119,13 @@ function LibraryShelf({
             const bookH = 0.38 + ((i + shelfIndex) % 4) * 0.055
             const x = -width / 2 + 0.22 + i * 0.23
             return (
-              <mesh key={i} position={[x, y - 0.04 + bookH / 2, 0.18]}>
-                <boxGeometry args={[bookW, bookH, 0.16]} />
+              <RoundedBox key={i} position={[x, y - 0.04 + bookH / 2, 0.18]} args={[bookW, bookH, 0.16]} radius={0.012} smoothness={4}>
                 <meshStandardMaterial color={bookColors[(i + shelfIndex) % bookColors.length]} roughness={0.72} metalness={0.04} />
-              </mesh>
+              </RoundedBox>
             )
           })}
         </group>
       ))}
-      <Text
-        font={FONTS.sans600}
-        fontSize={0.085}
-        color="#f4ead9"
-        anchorX="center"
-        position={[0, 1.02, 0.2]}
-        letterSpacing={0.12}
-      >
-        ARCHIVE STACKS
-      </Text>
     </group>
   )
 }
@@ -200,12 +189,10 @@ function WallpaperWall({
   rotationY: number
 }) {
   const texture = useTexture('/Portfolio_Repo/Images/wallpaper.jpg')
-  useEffect(() => {
-    texture.colorSpace = THREE.SRGBColorSpace
-    texture.wrapS = THREE.RepeatWrapping
-    texture.wrapT = THREE.RepeatWrapping
-    texture.repeat.set(3, 2)
-  }, [texture])
+  texture.colorSpace = THREE.SRGBColorSpace
+  texture.wrapS = THREE.RepeatWrapping
+  texture.wrapT = THREE.RepeatWrapping
+  texture.repeat.set(3, 2)
   return (
     <group position={position} rotation-y={rotationY}>
       <mesh position={[0, 0, 0.01]}>
@@ -469,61 +456,202 @@ export function NorthGallery() {
   )
 }
 
+// ── Library Helper Components ────────────────────────────────────────
+function Wainscoting({ width, depth, position }: { width: number; depth: number; position: [number, number, number] }) {
+  const materials = useMemo(() => getMaterials(), [])
+  const thickness = 0.1
+  return (
+    <group position={position}>
+      {/* Back wall */}
+      <mesh material={materials.blackMetal} position={[0, 0.6, -depth / 2]}>
+        <boxGeometry args={[width, 1.2, thickness]} />
+      </mesh>
+      <mesh material={materials.brass} position={[0, 1.2, -depth / 2]}>
+        <boxGeometry args={[width, 0.04, thickness + 0.02]} />
+      </mesh>
+      
+      {/* Left wall */}
+      <mesh material={materials.blackMetal} position={[-width / 2, 0.6, 0]}>
+        <boxGeometry args={[thickness, 1.2, depth]} />
+      </mesh>
+      <mesh material={materials.brass} position={[-width / 2, 1.2, 0]}>
+        <boxGeometry args={[thickness + 0.02, 0.04, depth]} />
+      </mesh>
+
+      {/* Right wall */}
+      <mesh material={materials.blackMetal} position={[width / 2, 0.6, 0]}>
+        <boxGeometry args={[thickness, 1.2, depth]} />
+      </mesh>
+      <mesh material={materials.brass} position={[width / 2, 1.2, 0]}>
+        <boxGeometry args={[thickness + 0.02, 0.04, depth]} />
+      </mesh>
+    </group>
+  )
+}
+
+function Chandelier({ position }: { position: [number, number, number] }) {
+  const materials = useMemo(() => getMaterials(), [])
+  return (
+    <group position={position}>
+      <mesh material={materials.brass} position={[0, 0, 0]}>
+        <cylinderGeometry args={[0.02, 0.02, 1]} />
+      </mesh>
+      <mesh material={materials.brass} position={[0, -0.5, 0]}>
+        <torusGeometry args={[0.4, 0.02, 16, 64]} rotation-x={Math.PI / 2} />
+      </mesh>
+      <pointLight position={[0, -0.5, 0]} intensity={15} distance={10} color="#ffdfb0" />
+    </group>
+  )
+}
+
+function PersianRug({ position, width, depth }: { position: [number, number, number]; width: number; depth: number }) {
+  return (
+    <mesh position={position} rotation-x={-Math.PI / 2}>
+      <planeGeometry args={[width, depth]} />
+      <meshStandardMaterial color="#6a2222" roughness={0.9} />
+    </mesh>
+  )
+}
+
+function LeatherArmchair({ position, rotationY }: { position: [number, number, number]; rotationY: number }) {
+  const Leather = () => <meshStandardMaterial color="#382110" roughness={0.6} metalness={0.1} />
+  const Wood = () => <meshStandardMaterial color="#1a110a" roughness={0.8} />
+  return (
+    <group position={position} rotation-y={rotationY}>
+      {/* Seat Cushion */}
+      <RoundedBox args={[0.8, 0.2, 0.7]} radius={0.05} smoothness={4} position={[0, 0.4, 0]}>
+        <Leather />
+      </RoundedBox>
+      {/* Backrest */}
+      <RoundedBox args={[0.8, 0.6, 0.2]} radius={0.05} smoothness={4} position={[0, 0.8, -0.25]} rotation-x={-0.15}>
+        <Leather />
+      </RoundedBox>
+      {/* Armrests */}
+      <RoundedBox args={[0.15, 0.15, 0.7]} radius={0.05} smoothness={4} position={[-0.45, 0.6, 0]}>
+        <Leather />
+      </RoundedBox>
+      <RoundedBox args={[0.15, 0.15, 0.7]} radius={0.05} smoothness={4} position={[0.45, 0.6, 0]}>
+        <Leather />
+      </RoundedBox>
+      {/* Armrest Supports */}
+      <mesh position={[-0.45, 0.45, 0]}>
+        <boxGeometry args={[0.1, 0.15, 0.5]} />
+        <Wood />
+      </mesh>
+      <mesh position={[0.45, 0.45, 0]}>
+        <boxGeometry args={[0.1, 0.15, 0.5]} />
+        <Wood />
+      </mesh>
+      {/* Legs */}
+      {[[-0.35, -0.25], [0.35, -0.25], [-0.35, 0.25], [0.35, 0.25]].map(([x, z], i) => (
+        <mesh key={i} position={[x, 0.15, z]}>
+          <cylinderGeometry args={[0.02, 0.01, 0.3]} />
+          <Wood />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
+function TallPlant({ position }: { position: [number, number, number] }) {
+  return (
+    <group position={position}>
+      {/* Planter */}
+      <mesh position={[0, 0.25, 0]}>
+        <cylinderGeometry args={[0.3, 0.2, 0.5, 32]} />
+        <meshStandardMaterial color="#e5e5e5" roughness={0.9} />
+      </mesh>
+      {/* Soil */}
+      <mesh position={[0, 0.505, 0]}>
+        <cylinderGeometry args={[0.28, 0.28, 0.01, 32]} />
+        <meshStandardMaterial color="#1a120b" roughness={1} />
+      </mesh>
+      
+      {/* Main Trunk */}
+      <mesh position={[0, 0.9, 0]}>
+        <cylinderGeometry args={[0.03, 0.04, 1.0, 8]} />
+        <meshStandardMaterial color="#4a3b2c" roughness={0.9} />
+      </mesh>
+      {/* Branch 1 */}
+      <mesh position={[0.1, 1.2, 0.1]} rotation-z={-0.3} rotation-x={0.2}>
+        <cylinderGeometry args={[0.015, 0.025, 0.6, 8]} />
+        <meshStandardMaterial color="#4a3b2c" roughness={0.9} />
+      </mesh>
+      {/* Branch 2 */}
+      <mesh position={[-0.1, 1.0, -0.1]} rotation-z={0.4} rotation-x={-0.2}>
+        <cylinderGeometry args={[0.015, 0.025, 0.5, 8]} />
+        <meshStandardMaterial color="#4a3b2c" roughness={0.9} />
+      </mesh>
+
+      {/* Foliage Clusters */}
+      <group position={[0, 1.4, 0]}>
+        <mesh>
+          <dodecahedronGeometry args={[0.35, 1]} />
+          <meshStandardMaterial color="#2d4c2b" roughness={0.8} />
+        </mesh>
+      </group>
+      <group position={[0.25, 1.5, 0.25]}>
+        <mesh>
+          <dodecahedronGeometry args={[0.3, 1]} />
+          <meshStandardMaterial color="#355733" roughness={0.8} />
+        </mesh>
+      </group>
+      <group position={[-0.25, 1.25, -0.2]}>
+        <mesh>
+          <dodecahedronGeometry args={[0.25, 1]} />
+          <meshStandardMaterial color="#254223" roughness={0.8} />
+        </mesh>
+      </group>
+      <group position={[0.1, 1.1, -0.3]}>
+        <mesh>
+          <dodecahedronGeometry args={[0.2, 1]} />
+          <meshStandardMaterial color="#2d4c2b" roughness={0.8} />
+        </mesh>
+      </group>
+    </group>
+  )
+}
+
 // ── The Archive (secret room) ──────────────────────────────────────
 export function SecretRoom() {
   const unlocked = useMuseum((s) => s.secretUnlocked)
-  const materials = useMemo(() => getMaterials(), [])
-
+  
   return (
     <group>
-      {/* Warm sanctuary light, only meaningful once discovered */}
-      <pointLight position={[6, 3.6, -19]} intensity={unlocked ? 9 : 0} distance={9} color={ACCENT} />
-      <LightShaft position={[6, 2.4, -19]} height={4.6} topRadius={0.5} bottomRadius={1.7} color={ACCENT} opacity={unlocked ? 0.07 : 0} />
+      {/* Warm sanctuary light */}
+      <pointLight position={[6, 3.6, -19]} intensity={unlocked ? 9 : 0} distance={9} color="#ffb86c" />
 
-      <TextPanel
-        position={[3.15, 3.85, -21.74]}
-        heading="The Library"
-        body="A quiet hidden room for notes, goals and the ideas behind the work."
-        width={5.4}
-        headingSize={0.42}
-        bodySize={0.11}
+      {/* Architectural Elements */}
+      <Wainscoting width={8} depth={6} position={[6, 0, -19]} />
+      <Chandelier position={[6, 4.4, -19]} />
+
+      {/* Cozy Rug */}
+      <PersianRug position={[6, 0.01, -19]} width={5.6} depth={3.8} />
+
+      {/* Central Pedestal & Platform */}
+      <mesh position={[6, 0.02, -19]}>
+        <cylinderGeometry args={[1.5, 1.55, 0.1, 32]} />
+        <meshStandardMaterial color="#3a1e12" roughness={0.8} />
+      </mesh>
+      <Pedestal 
+        position={[6, 0.07, -19]} 
+        exhibit="book" 
+        label="The Architect's Journal"
+        prompt="Read the Journal"
+        onInteract={() => window.open(PROFILE.resume, '_blank', 'noopener')}
       />
 
-      <LibraryShelf position={[3.05, 1.6, -19.2]} rotationY={Math.PI / 2} width={3.2} />
-      <LibraryShelf position={[8.95, 1.6, -19.2]} rotationY={-Math.PI / 2} width={3.2} />
-      <LibraryShelf position={[6, 1.6, -21.72]} width={4.2} />
+      {/* Reading Nook (Armchair facing exhibit, table removed) */}
+      <LeatherArmchair position={[2.8, 0, -17.5]} rotationY={Math.atan2(3.2, -1.5)} />
+      <FloorLamp position={[2.2, 0, -17.5]} />
 
-      <mesh material={materials.blackMetal} position={[6, 0.42, -18.15]} castShadow>
-        <boxGeometry args={[2.8, 0.16, 1.05]} />
-      </mesh>
-      <mesh material={materials.brass} position={[6, 0.53, -18.15]}>
-        <boxGeometry args={[2.9, 0.035, 1.12]} />
-      </mesh>
-      <Text
-        font={FONTS.sans600}
-        fontSize={0.12}
-        color="#fff1dc"
-        anchorX="center"
-        position={[6, 0.68, -17.72]}
-        rotation-x={-Math.PI / 2}
-        maxWidth={2.5}
-        textAlign="center"
-      >
-        {SECRET.favoriteTech.join('  ·  ')}
-      </Text>
-      <Text
-        font={FONTS.sans400}
-        fontSize={0.088}
-        color="#e3d8c6"
-        anchorX="center"
-        position={[6, 2.85, -16.22]}
-        rotation-y={Math.PI}
-        lineHeight={1.55}
-        maxWidth={5.6}
-        textAlign="center"
-      >
-        {SECRET.goals.join('\n')}
-      </Text>
+      {/* Tall Plant */}
+      <TallPlant position={[9.2, 0, -21.2]} />
+
+      {/* Shelves */}
+      <LibraryShelf position={[2.2, 1.25, -19.6]} rotationY={Math.PI / 2} width={3.2} />
+      <LibraryShelf position={[9.8, 1.25, -19.6]} rotationY={-Math.PI / 2} width={3.2} />
+      <LibraryShelf position={[6, 1.25, -21.72]} width={4.2} />
     </group>
   )
 }

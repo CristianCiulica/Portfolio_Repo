@@ -16,16 +16,8 @@ export function Lighting() {
       {/* Moonlight over the exterior approach */}
       <directionalLight
         position={[14, 20, 34]}
-        intensity={0.85}
+        intensity={0.65}
         color="#b9c8e6"
-        castShadow
-        shadow-mapSize={[1024, 1024]}
-        shadow-camera-left={-24}
-        shadow-camera-right={24}
-        shadow-camera-top={30}
-        shadow-camera-bottom={-30}
-        shadow-camera-far={70}
-        shadow-bias={-0.0004}
       />
 
       {/* Lobby skylight shaft */}
@@ -33,12 +25,9 @@ export function Lighting() {
         position={[0, 5.1, 10]}
         angle={0.62}
         penumbra={0.9}
-        intensity={38}
+        intensity={28}
         distance={14}
         color="#cfd9ec"
-        castShadow
-        shadow-mapSize={[1024, 1024]}
-        shadow-bias={-0.0004}
       >
         {/* target as child of the light → points straight down */}
         <object3D attach="target" position={[0, -1, 0]} />
